@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { v1 } from 'uuid';
 import './App.css';
 import {TaskType, TodoList} from './TodoList';
 
@@ -8,23 +9,29 @@ function App() {
     let [filter,setFilter] = useState<FilterType>("All")
     let [tasksData, setTasksData] = useState<Array<TaskType>>(
         [
-            {id: 1, title: "React", isDone: false},
-            {id: 2, title: "HTML&CSS", isDone: true},
-            {id: 3, title: "JS", isDone: true},
+            {id: v1(), title: "React", isDone: false},
+            {id: v1(), title: "HTML&CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true},
         ]
     )
 
-    const removeTask = (TaskId: number) => {
+    const removeTask = (TaskId: string) => {
         setTasksData(tasksData.filter(t => t.id !== TaskId))
     }
     const addTask = (title: string) => {
-        let newTask = {id: 4, title, isDone: false}
+        let newTask = {id: v1(), title, isDone: false}
         setTasksData([newTask, ...tasksData])
     }
     const setFilterValue = (value: FilterType)=> {
         setFilter(value)
     }
-
+    const changeIsDoneValue = (TaskId: string, IsDoneValue: boolean) => {
+        let changedValue = tasksData.find(t=>t.id === TaskId)
+        if (changedValue){
+            changedValue.isDone = IsDoneValue
+            setTasksData([...tasksData])
+        }
+    }
 
     /*switch (filter) {
         case "Active":{
@@ -51,6 +58,7 @@ function App() {
             removeTask={removeTask}
             tasks={tasksForTodoList}
             setFilterValue={setFilterValue}
+            changeIsDoneValue={changeIsDoneValue}
         />
     );
 }
