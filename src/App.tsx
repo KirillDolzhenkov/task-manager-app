@@ -33,30 +33,33 @@ function App() {
         }
     }
 
-    /*switch (filter) {
-        case "Active":{
-            return tasksData.filter(t=>t.isDone)
+    const tasksForTodoList = ():Array<TaskType> => {
+        switch (filter) {
+            case "Active": {
+                return tasksData.filter(t => t.isDone)
+            }
+            case "Completed": {
+                return tasksData.filter(t => !t.isDone)
+            }
+            default:
+                return tasksData
         }
-        case "Completed":{
-            return tasksData.filter(t=>!t.isDone)
-        }
-        default:
-            return tasksData
-    }*/
+    }
 
-    let tasksForTodoList = tasksData
+    /*let tasksForTodoList = tasksData
     if (filter==="Active"){
         tasksForTodoList = tasksData.filter(t=>t.isDone)
     }
     if (filter==="Active"){
         tasksForTodoList = tasksData.filter(t=>!t.isDone)
-    }
-
+    }*/
+    
     return (
+
         <TodoList
             addTask={addTask}
             removeTask={removeTask}
-            tasks={tasksForTodoList}
+            tasks={tasksForTodoList()}
             setFilterValue={setFilterValue}
             changeIsDoneValue={changeIsDoneValue}
         />
