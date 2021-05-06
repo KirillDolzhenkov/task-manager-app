@@ -12,17 +12,17 @@ export type TodoListPropsType = {
     todoListId: string
     title: string
     tasks: Array<TaskType>
-    removeTask: (TaskId: string) => void
-    addTask: (title: string) => void
+    removeTask: (TaskId: string, todoListId: string) => void
+    addTask: (title: string, todoListId: string) => void
     setFilterValue: (value: FilterType, todoListId: string) => void
-    changeIsDoneValue: (TaskId: string, IsDoneValue: boolean) => void
+    changeIsDoneValue: (TaskId: string, IsDoneValue: boolean, todoListId: string) => void
 }
 
 const TodoList: React.FC<TodoListPropsType> = (props) => {
     let [inputValue, setInputValue] = useState('')
     const addItem = () => {
         if(inputValue){
-            props.addTask(inputValue)
+            props.addTask(inputValue, props.todoListId)
             setInputValue('')
         }
     }
@@ -47,9 +47,9 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
                     </div>
                     <ul>
                         {props.tasks.map(t => {
-                                const onclickHandler = () => props.removeTask(t.id)
+                                const onclickHandler = () => props.removeTask(t.id, props.todoListId)
                                 const onChangeIsDoneHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                                    props.changeIsDoneValue(t.id, e.currentTarget.checked)
+                                    props.changeIsDoneValue(t.id, e.currentTarget.checked, props.todoListId)
                                 }
                                 return (
                                     <li><input
