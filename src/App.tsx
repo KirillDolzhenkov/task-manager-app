@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import { v1 } from 'uuid';
+import {v1} from 'uuid';
 import './App.css';
 import {TaskType, TodoList} from './TodoList';
 
-export type FilterType =  "All"|"Active"|"Completed"
+export type FilterType = "All" | "Active" | "Completed"
 
 function App() {
     /*let [filter,setFilter] = useState<FilterType>("All")*/
@@ -22,18 +22,18 @@ function App() {
         let newTask = {id: v1(), title, isDone: false}
         setTasksData([newTask, ...tasksData])
     }
-    const setFilterValue = (value: FilterType, todoListId: string)=> {
-        let todoList = todoLists.find(tl=>tl.id === todoListId)
-        if (todoList){
+    const setFilterValue = (value: FilterType, todoListId: string) => {
+        let todoList = todoLists.find(tl => tl.id === todoListId)
+        if (todoList) {
             todoList.filter = value
-            setTodoLists({...todoLists})
+            setTodoLists([...todoLists])
         }
 
         /*setFilter(value)*/
     }
     const changeIsDoneValue = (TaskId: string, IsDoneValue: boolean) => {
-        let changedValue = tasksData.find(t=>t.id === TaskId)
-        if (changedValue){
+        let changedValue = tasksData.find(t => t.id === TaskId)
+        if (changedValue) {
             changedValue.isDone = IsDoneValue
             setTasksData([...tasksData])
         }
@@ -60,7 +60,7 @@ function App() {
         tasksForTodoList = tasksData.filter(t=>!t.isDone)
     }*/
 
-    let [todoLists, setTodoLists] = useState( [
+    let [todoLists, setTodoLists] = useState([
         {id: v1(), title: "What to learn", filter: "All"},
         {id: v1(), title: "What to buy", filter: "Active"},
     ])
@@ -68,7 +68,7 @@ function App() {
 
         <div className="App">
             {
-                todoLists.map((tl)=>{
+                todoLists.map((tl) => {
                     const tasksForTodoList = () => {
                         switch (tl.filter) {
                             case "Active": {
@@ -81,7 +81,7 @@ function App() {
                                 return tasksData
                         }
                     }
-                    return(
+                    return (
                         <TodoList
                             todoListId={tl.id}
                             title={tl.title}
