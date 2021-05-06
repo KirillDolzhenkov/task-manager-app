@@ -16,6 +16,7 @@ export type TodoListPropsType = {
     addTask: (title: string, todoListId: string) => void
     setFilterValue: (value: FilterType, todoListId: string) => void
     changeIsDoneValue: (TaskId: string, IsDoneValue: boolean, todoListId: string) => void
+    removeTodolist: (todoListId: string)=> void
 }
 
 const TodoList: React.FC<TodoListPropsType> = (props) => {
@@ -32,11 +33,12 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
         }
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value)
+    let deleteTodolist =()=> {props.removeTodolist(props.todoListId)}
     return (
         <div>
             <div className="App">
                 <div>
-                    <h3>{props.title}</h3>
+                    <h3>{props.title}<button onClick={deleteTodolist}>x</button></h3>
                     <div>
                         <input
                             value={inputValue}

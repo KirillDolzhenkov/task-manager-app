@@ -77,6 +77,12 @@ function App() {
     if (filter==="Active"){
         tasksForTodoList = tasksData.filter(t=>!t.isDone)
     }*/
+    const removeTodolist = (todoListId: string) => {
+        let removedTodolist = todoLists.filter(tl=>tl.id !== todoListId)
+        setTodoLists(removedTodolist)
+        delete tasksData[todoListId]
+        setTasksData({...tasksData})
+    }
     const todoListId_1 = v1();
     const todoListId_2 = v1();
 
@@ -117,6 +123,7 @@ function App() {
                     }
                     return (
                         <TodoList
+                            key={tl.id}
                             todoListId={tl.id}
                             title={tl.title}
                             addTask={addTask}
@@ -124,6 +131,7 @@ function App() {
                             tasks={tasksForTodoList()}
                             setFilterValue={setFilterValue}
                             changeIsDoneValue={changeIsDoneValue}
+                            removeTodolist={removeTodolist}
                         />
                     )
                 })
