@@ -6,7 +6,7 @@ import {TaskType, TodoList} from './TodoList';
 export type FilterType =  "All"|"Active"|"Completed"
 
 function App() {
-    let [filter,setFilter] = useState<FilterType>("All")
+    /*let [filter,setFilter] = useState<FilterType>("All")*/
     let [tasksData, setTasksData] = useState<Array<TaskType>>(
         [
             {id: v1(), title: "React", isDone: false},
@@ -22,8 +22,14 @@ function App() {
         let newTask = {id: v1(), title, isDone: false}
         setTasksData([newTask, ...tasksData])
     }
-    const setFilterValue = (value: FilterType)=> {
-        setFilter(value)
+    const setFilterValue = (value: FilterType, todoListId: string)=> {
+        let todoList = todoLists.find(tl=>tl.id === todoListId)
+        if (todoList){
+            todoList.filter = value
+            setTodoLists({...todoLists})
+        }
+
+        /*setFilter(value)*/
     }
     const changeIsDoneValue = (TaskId: string, IsDoneValue: boolean) => {
         let changedValue = tasksData.find(t=>t.id === TaskId)
@@ -33,7 +39,7 @@ function App() {
         }
     }
 
-    const tasksForTodoList = ():Array<TaskType> => {
+    /*const tasksForTodoList = ():Array<TaskType> => {
         switch (filter) {
             case "Active": {
                 return tasksData.filter(t => t.isDone)
@@ -44,7 +50,7 @@ function App() {
             default:
                 return tasksData
         }
-    }
+    }*/
 
     /*let tasksForTodoList = tasksData
     if (filter==="Active"){
@@ -53,16 +59,42 @@ function App() {
     if (filter==="Active"){
         tasksForTodoList = tasksData.filter(t=>!t.isDone)
     }*/
-    
+
+    let [todoLists, setTodoLists] = useState( [
+        {id: v1(), title: "What to learn", filter: "All"},
+        {id: v1(), title: "What to buy", filter: "Active"},
+    ])
     return (
 
-        <TodoList
-            addTask={addTask}
-            removeTask={removeTask}
-            tasks={tasksForTodoList()}
-            setFilterValue={setFilterValue}
-            changeIsDoneValue={changeIsDoneValue}
-        />
+        <div className="App">
+            {
+                todoLists.map((tl)=>{
+                    const tasksForTodoList = () => {
+                        switch (tl.filter) {
+                            case "Active": {
+                                return tasksData.filter(t => t.isDone)
+                            }
+                            case "Completed": {
+                                return tasksData.filter(t => !t.isDone)
+                            }
+                            default:
+                                return tasksData
+                        }
+                    }
+                    return(
+                        <TodoList
+                            todoListId={tl.id}
+                            title={tl.title}
+                            addTask={addTask}
+                            removeTask={removeTask}
+                            tasks={tasksForTodoList()}
+                            setFilterValue={setFilterValue}
+                            changeIsDoneValue={changeIsDoneValue}
+                        />
+                    )
+                })
+            }
+        </div>
     );
 }
 
