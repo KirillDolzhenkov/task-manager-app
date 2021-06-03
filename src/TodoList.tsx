@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import {FilterType} from "./App";
 import {AddItemForm} from "./AddItemForm";
+import {EdittableSpan} from "./EdittableSpan";
 
 
 export type TaskType = {
@@ -19,11 +20,13 @@ export type TodoListPropsType = {
     filter: FilterType //??
     title: string
     removeTodolist: (todoListID: string) => void
+
+    onChangeTitle: (TaskId: string, newTitle: string, todoListID: string)=> void
 }
 
 const TodoList: React.FC<TodoListPropsType> = (props) => {
 
-    const removeTodolist = ()=> props.removeTodolist(props.todoListID);
+    const removeTodolist = () => props.removeTodolist(props.todoListID);
 
 
     const addTask = (tittle: string) => {
@@ -35,14 +38,14 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
         <div>
             <div className="App">
                 <div>
-                    <h3>{props.title} <button onClick={removeTodolist}
-                    >X</button> </h3>
+                    <h3>{props.title}
+                        <button onClick={removeTodolist}
+                        >X
+                        </button>
+                    </h3>
 
 
-
-
-                    <AddItemForm addTask={addTask} />
-
+                    <AddItemForm addTask={addTask}/>
 
 
                     <ul>
@@ -52,6 +55,13 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
                                 const onChangeIsDoneHandler = (e: ChangeEvent<HTMLInputElement>) => {
                                     props.changeIsDoneValue(t.id, e.currentTarget.checked, props.todoListID)
                                 }
+
+
+                                const onChangeTitle = (newTitle: string) => {
+                                   props.onChangeTitle(t.id, newTitle, props.todoListID)
+                                }
+
+
                                 return (
                                     <li><input
 
@@ -59,7 +69,7 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
                                         checked={t.isDone}
                                         onChange={onChangeIsDoneHandler}
                                     />
-                                        <span>{t.title}</span>
+                                        <EdittableSpan title={t.title} onChangeTitle={onChangeTitle}/>
                                         <button onClick={onclickHandler}>X</button>
                                     </li>
                                 )

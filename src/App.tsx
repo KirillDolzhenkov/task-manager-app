@@ -64,6 +64,18 @@ function App() {
         })
     }
 
+
+    const onChangeTitle = (TaskId: string, title: string, todoListID: string) => {
+        let task = tasksDataObj[todoListID]
+        let changedValue = task.find(t => t.id === TaskId)
+        if (changedValue) {
+            changedValue.title = title
+            setTasksData({...tasksDataObj})
+        }
+    }
+
+
+
     let TodoListId_1 = v1();
     let TodoListId_2 = v1();
 
@@ -125,6 +137,7 @@ function App() {
                             setFilterValue={setFilterValue}
                             changeIsDoneValue={changeIsDoneValue}
                             removeTodolist={removeTodolist}
+                            onChangeTitle={onChangeTitle}
                         />
                     )
                 })
