@@ -32,7 +32,11 @@ const EdittableSpan: React.FC<EdittableSpanType> = (props)=> {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value);
     }
-
+    const onKeyHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            changeEditMode(false);
+        }
+    }
     return(
         <>
             {
@@ -41,7 +45,8 @@ const EdittableSpan: React.FC<EdittableSpanType> = (props)=> {
                         value={title}
                         onChange={onChangeHandler}
                         onBlur={()=>changeEditMode(false)}
-                        autoFocus={true}>
+                        onKeyPress={onKeyHandler}
+                        autoFocus>
                     </input>
                 : <span onDoubleClick={()=>changeEditMode(true)} >{props.title}</span>
             }
