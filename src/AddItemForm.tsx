@@ -1,33 +1,46 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {useState} from "react";
 
-type AddItemFormType = {
-    addTask: (inputValue: string) => void
-
+//types:
+type AddItemFormPropTypes = {
+    addItemHandler: (title: string) => void
 }
-const AddItemForm: React.FC<AddItemFormType> = (props) => {
-    let [inputValue, setInputValue] = useState('')
+
+const AddItemForm: React.FC<AddItemFormPropTypes> = (props)=>{
+    const {
+        addItemHandler,
+    } = props;
+
+    const [error, setError] = useState<boolean>(false);
+    const [newValue, setNewValue] = useState("");
+    const hasError = error ? "error" : "";
+    const onchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewValue(e.currentTarget?.value);
+    }
+    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        setError(false);
+        if (e.charCode === 13) {
+            addItem();
+        }
+    }
+
     const addItem = () => {
-        if (inputValue) {
-            props.addTask(inputValue)
-            setInputValue('')
+        if (!newValue.trim()) {
+            setError(true);
+            return;
         }
+        addItemHandler(newValue.trim());
+        setNewValue('');
     }
-    const onkeypressHandler = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            addItem()
-        }
-    }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value)
+
     return (
         <div>
-            <div>
-                <input
-                    value={inputValue}
-                    onChange={onChangeHandler}
-                    onKeyPress={onkeypressHandler}
-                />
-                <button onClick={addItem}>+</button>
-            </div>
+            <input value={newValue}
+                   onChange={onchangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   className={hasError}
+            />
+            <button onClick={addItem}>+</button>
+            {error && <div className={"error-message"}>title is required</div>}
         </div>
     )
 }
