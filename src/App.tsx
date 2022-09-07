@@ -9,7 +9,7 @@ import {AppBar, Button, IconButton, Toolbar, Typography, Container, Grid} from "
 import {Menu} from '@material-ui/icons';
 
 export type FilterValuesType = "All" | "Active" | "Completed"
-type TodolistType = {
+export type TodolistStateType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -22,7 +22,7 @@ function App() {
     const TodoListId_1 = v1();
     const TodoListId_2 = v1();
 
-    const [todosData, setTodosData] = useState<Array<TodolistType>>([
+    const [todosData, setTodosData] = useState<Array<TodolistStateType>>([
         {id: TodoListId_1, title: "what to learn", filter: "All"},
         {id: TodoListId_2, title: "what to bye", filter: "All"},
     ]);
@@ -107,7 +107,7 @@ function App() {
     }
     const createTodolist = (title: string) => {
         //create new todolist:
-        let newTodo: TodolistType = {id: v1(), title, filter: "All"};
+        let newTodo: TodolistStateType = {id: v1(), title, filter: "All"};
         //rerender all todoData with new todolist:
         setTodosData([newTodo, ...todosData]);
         //rerender all todoData with new tasks of this todolist:
