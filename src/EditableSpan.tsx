@@ -30,20 +30,20 @@ const EditableSpan: React.FC<EditableSpanPropsType> = (props) => {
         <>
             {
                 editMode
-                    ? /*<input
-                        type="text"
-                        value={titleValue}
-                        autoFocus
-                        onBlur={offEditMode}
-                        onChange={onTitleHandler}
-                    />*/
-                    <TextField
+                    ? <input
                         type="text"
                         value={titleValue}
                         autoFocus
                         onBlur={offEditMode}
                         onChange={onTitleHandler}
                     />
+                    /*<TextField
+                        type="text"
+                        value={titleValue}
+                        autoFocus
+                        onBlur={offEditMode}
+                        onChange={onTitleHandler}
+                    />*/
                     : <span
                         onDoubleClick={onEditMode}
                     >{title}</span>
