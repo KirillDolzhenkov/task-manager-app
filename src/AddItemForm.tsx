@@ -54,7 +54,7 @@ const AddItemForm: React.FC<AddItemFormPropTypes> = (props)=>{
             {/*<button onClick={addItem}>+</button>*/}
             <IconButton
                 color="primary"
-               /* style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}*/
+                style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
                 onClick={addItem}
             ><AddBox/></IconButton>
             {/*{error && <div className={"error-message"}>title is required</div>}*/}
