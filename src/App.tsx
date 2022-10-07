@@ -155,6 +155,7 @@ function App() {
 
                             //filtered tasks for todolist:
 
+                            //#1:
                             /*let tasksForTodo = tasks[tl.id];
                             if (tl.filter === "Active") {
                                 tasksForTodo = tasks[tl.id].filter(t => !t.isDone);
@@ -163,8 +164,8 @@ function App() {
                                 tasksForTodo = tasks[tl.id].filter(t => t.isDone);
                             }*/
 
-
-                            let tasksForTodo = (): Array<TaskType> => {
+                            //#2:
+                            /*let tasksForTodo = (): Array<TaskType> => {
                                 switch (tl.filter) {
                                     case "Active": {
                                         return tasks[tl.id].filter(t => t.isDone);
@@ -175,14 +176,28 @@ function App() {
                                     default:
                                         return tasks[tl.id];
                                 }
-                            }
+                            }*/
+
+                            //#3(clear function):
+                            let getTasksForRender = (todoList: TodolistStateType, tasks: TasksStateType): Array<TaskType> => {
+                                switch (tl.filter) {
+                                    case "Active": {
+                                        return tasks[tl.id].filter(t => t.isDone);
+                                    }
+                                    case "Completed": {
+                                        return tasks[tl.id].filter(t => !t.isDone);
+                                    }
+                                    default:
+                                        return tasks[tl.id];
+                                }
+                            };
 
                             return (
                                 <Todolist
                                     key={tl.id}
                                     todoId={tl.id}
                                     title={tl.title}
-                                    tasks={tasksForTodo()}
+                                    tasks={getTasksForRender(tl, tasks)}
                                     deleteTask={deleteTask}
                                     changeFilter={changeFilter}
                                     createTask={createTask}

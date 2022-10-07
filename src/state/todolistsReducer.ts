@@ -29,15 +29,15 @@ export const todolistsReducer = (state: Array<TodolistStateType>, action: TodoRe
     }
 }
 
-const removeTodolistAC = (todoId: string) => {
+export const removeTodolistAC = (todoId: string) => {
     return {type: "TL/TODOLIST/REMOVE_TODOLIST", todoId} as const
 }
-const addTodoAC = (tittle: string) => {
+export const addTodoAC = (tittle: string) => {
     return {type: "TL/TODOLIST/ADD_TODOLIST", tittle} as const
 }
-const changeTodoFilterAC = (todoId: string, filter: FilterValuesType) => {
+export const changeTodoFilterAC = (todoId: string, filter: FilterValuesType) => {
     return {type: "TL/TODOLIST/CHANGE_TODO_FILTER", todoId, filter} as const
 }
-const changeTodoTitleAC = (todoId: string, title: string) => {
+export const changeTodoTitleAC = (todoId: string, title: string) => {
     return {type: "TL/TODOLIST/CHANGE_TODO_TITLE", todoId, title} as const
 }

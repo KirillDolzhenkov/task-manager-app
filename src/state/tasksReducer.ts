@@ -1,7 +1,7 @@
 type initialStateType = any
 type actionType = ReturnType<typeof testAC1> | ReturnType<typeof testAC2>
 
-export const taskReducer = (state: initialStateType, action: actionType) => {
+export const tasksReducer = (state: initialStateType, action: actionType) => {
     switch (action.type){
         case "TL/TASKS/TEST_1": {
             return state;
