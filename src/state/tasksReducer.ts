@@ -7,27 +7,27 @@ type actionType = ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC>
 export const tasksReducer = (state: TasksStateType, action: actionType): TasksStateType => {
     switch (action.type) {
         case "TL/TASKS/REMOVE_TASK": {
-            const stateCopy = {...state};
+            /*const stateCopy = {...state};
             const foundTasks = state[action.todoId];
             const filteredTasks = foundTasks.filter(t => t.id !== action.taskId);
             stateCopy[action.todoId] = filteredTasks;
-            return stateCopy;
-            /*return {
+            return stateCopy;*/
+            return {
                 ...state,
                 [action.todoId]: state[action.todoId].filter(t => t.id !== action.taskId)
-            }*/
+            }
         }
         case "TL/TASKS/ADD_TASK": {
-            const stateCopy = {...state};
-            const foundTask = stateCopy[action.todoId];
             const newTask: TaskType = {id: v1(), title: action.title, isDone: false};
+            /*const stateCopy = {...state};
+            const foundTask = stateCopy[action.todoId];
             const newTaskData = [newTask, ...foundTask];
             stateCopy[action.todoId] = newTaskData;
-            return stateCopy;
-            /*return {
+            return stateCopy;*/
+            return {
                 ...state,
                 [action.todoId]: [newTask, ...state[action.todoId]]
-            }*/
+            }
         }
         default:
             return state;
