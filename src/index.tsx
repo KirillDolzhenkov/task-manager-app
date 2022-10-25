@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {ErrorBoundary} from './ErrorBoundary';
+import AppWithReducers from "./AppWithReducers";
 
 
 ReactDOM.render(
     //@ts-ignore
     <ErrorBoundary>
-        <App />
+        <AppWithReducers/>
         {/*{console.log()}*/}
     </ErrorBoundary>
     , document.getElementById('root'));
