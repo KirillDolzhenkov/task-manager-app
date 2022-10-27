@@ -1,18 +1,12 @@
 import React, {useReducer} from 'react';
 import {v1} from "uuid";
-import {AppBar,
-    Button,
-    Container,
-    Grid,
-    IconButton,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
+import {AppBar, Button, Container, Grid, Paper, Toolbar, Typography} from "@mui/material";
+import IconButton from "@mui/material/IconButton/IconButton";
+import {Menu} from "@mui/icons-material";
 
 import './App.css';
 import {AddItemForm} from "./AddItemForm";
 import {TaskType, Todolist} from "./TodoList";
-import {Menu} from '@material-ui/icons';
 import {
     addTodoAC,
     changeTodoFilterAC,

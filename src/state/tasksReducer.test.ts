@@ -62,7 +62,7 @@ test('correct task should be added to correct array', () => {
     expect(endState[todoListId_2][0].id).toBeDefined();
     expect(endState[todoListId_2][0].title).toBe('juce');
     expect(endState[todoListId_2][0].isDone).toBe(false);
-})
+});
 
 //changeStatus:
 test('status of specified task should be changed', () => {
@@ -95,4 +95,4 @@ test('new array should be added when new todolist is added', () => {
 
     expect(keys.length).toBe(3);
     expect(endState[newKey]).toEqual([]);
-})
+});

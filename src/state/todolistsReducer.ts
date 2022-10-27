@@ -1,15 +1,22 @@
 import {v1} from "uuid";
 
 import {FilterValuesType, TodolistStateType} from "../App";
+import {useReducer} from "react";
 
 export type TodoReducerAT = ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof addTodoAC>
     | ReturnType<typeof changeTodoFilterAC>
     | ReturnType<typeof changeTodoTitleAC>
 
+export const TodoListId_1 = v1();
+export  const TodoListId_2 = v1();
 
+const initialState: Array<TodolistStateType> =  [
+    {id: TodoListId_1, title: "what to learn", filter: "All"},
+    {id: TodoListId_2, title: "what to bye", filter: "All"},
+]
 
-export const todolistsReducer = (state: Array<TodolistStateType>, action: TodoReducerAT): Array<TodolistStateType> => {
+export const todolistsReducer = (state: Array<TodolistStateType> = initialState, action: TodoReducerAT): Array<TodolistStateType> => {
     switch (action.type) {
         case "TL/TODOLIST/REMOVE_TODOLIST": {
             let stateCopy = [...state];

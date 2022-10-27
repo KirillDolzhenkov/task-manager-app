@@ -2,8 +2,10 @@ import React from "react";
 import {FilterValuesType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {Button, Checkbox, IconButton} from "@material-ui/core";
-import {Delete} from "@material-ui/icons";
+import IconButton from "@mui/material/IconButton/IconButton";
+import {Delete} from "@mui/icons-material";
+import {Button, Checkbox} from "@mui/material";
+
 
 export type TaskType = {
     title: string

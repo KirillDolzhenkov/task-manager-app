@@ -1,16 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import AppWithRedux from "./AppWithRedux";
+
 import * as serviceWorker from './serviceWorker';
+import './index.css';
 import {ErrorBoundary} from './ErrorBoundary';
-import AppWithReducers from "./AppWithReducers";
+import {store} from "./state/store";
+import App from "./App";
+import {Provider} from "react-redux";
+
 
 
 ReactDOM.render(
     //@ts-ignore
     <ErrorBoundary>
-        <AppWithReducers/>
-        {/*{console.log()}*/}
+        <Provider store={store}>
+            <AppWithRedux/>
+            {/*{console.log('hi')}*/}
+        </Provider>
+        <App/>
     </ErrorBoundary>
     , document.getElementById('root'));
 
