@@ -7,6 +7,7 @@ type EditableSpanPropsType = {
 }
 
 const EditableSpan: React.FC<EditableSpanPropsType> = (props) => {
+    console.log("EditableSpan is called");
     const {
         title,
         onChangeHandler,

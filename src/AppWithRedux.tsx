@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {AppBar, Button, Container, Grid, Toolbar, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton/IconButton";
 import {Menu} from "@mui/icons-material";
@@ -9,7 +9,7 @@ import {TaskType, Todolist} from "./TodoList";
 import {addTodoAC, changeTodoFilterAC, changeTodoTitleAC, removeTodolistAC} from "./state/todolistsReducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootState} from "./state/store";
+import {AppRootStateType} from "./state/store";
 
 export type FilterValuesType = "All" | "Active" | "Completed"
 export type TodolistStateType = {
@@ -22,9 +22,10 @@ export type TasksStateType = {
 }
 
 function App() {
+    console.log("App is called");
     const dispatch = useDispatch();
-    const todolists = useSelector<AppRootState, Array<TodolistStateType>>(state => state.todolists);
-    const tasks = useSelector<AppRootState, TasksStateType>(state => state.tasks);
+    const todolists = useSelector<AppRootStateType, Array<TodolistStateType>>(state => state.todolists);
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
 
     //tasks callBacks:
     const deleteTask = (taskId: string, todoId: string) => {
@@ -48,20 +49,19 @@ function App() {
         dispatch(action);
     }
 
-
     //todoLists callBacks:
-    const removeTodolist = (todoId: string) => {
+    const removeTodolist = useCallback((todoId: string) => {
         const action = removeTodolistAC(todoId);
         dispatch(action);
-    }
-    const createTodolist = (title: string) => {
+    }, []);
+    const createTodolist = useCallback((title: string) => {
         const action = addTodoAC(title);
         dispatch(action);
-    }
-    const changeTodoListTitle = (todoId: string, newTitle: string) => {
+    }, []);
+    const changeTodoListTitle = useCallback((todoId: string, newTitle: string) => {
         const action = changeTodoTitleAC(newTitle, todoId);
         dispatch(action);
-    }
+    }, []);
 
     return (
         <div className="App">

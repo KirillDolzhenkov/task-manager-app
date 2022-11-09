@@ -27,6 +27,7 @@ type TodolistPropsType = {
 }
 
 const Todolist: React.FC<TodolistPropsType> = (props) => {
+    console.log("Todolist is called");
     const {
         todoId,
         title,

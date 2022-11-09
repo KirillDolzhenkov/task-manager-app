@@ -4,11 +4,12 @@ import {combineReducers, createStore} from "redux";
 
 
 //types:
-export type AppRootState = ReturnType<typeof rootReducer>
+export type AppRootStateType = ReturnType<typeof rootReducer>
 
 //main reducer:
 const rootReducer = combineReducers({
-    todolists: todolistsReducer,
+    //app state's description:
+    todolists: todolistsReducer, //dispatched "undefined" to every reducer for creating state
     tasks: tasksReducer
 });
 
