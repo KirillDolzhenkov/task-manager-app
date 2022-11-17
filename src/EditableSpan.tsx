@@ -6,7 +6,7 @@ type EditableSpanPropsType = {
     onChangeHandler: (newTitle: string) => void
 }
 
-const EditableSpan: React.FC<EditableSpanPropsType> = (props) => {
+const EditableSpan: React.FC<EditableSpanPropsType> = React.memo((props) => {
     console.log("EditableSpan is called");
     const {
         title,
@@ -51,7 +51,7 @@ const EditableSpan: React.FC<EditableSpanPropsType> = (props) => {
             }
         </>
     );
-}
+});
 
 export {
     EditableSpan

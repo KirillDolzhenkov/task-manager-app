@@ -28,40 +28,40 @@ function App() {
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
 
     //tasks callBacks:
-    const deleteTask = (taskId: string, todoId: string) => {
+    const deleteTask = useCallback((taskId: string, todoId: string) => {
         const action = removeTaskAC(taskId, todoId);
         dispatch(action);
-    };
-    const createTask = (title: string, todoId: string) => {
+    },[dispatch]);
+    const createTask = useCallback((title: string, todoId: string) => {
         const action = addTaskAC(title, todoId);
         dispatch(action);
-    };
-    const changeFilter = (value: FilterValuesType, todoId: string) => {
+    },[dispatch]);
+    const changeFilter = useCallback((value: FilterValuesType, todoId: string) => {
         const action = changeTodoFilterAC(todoId, value);
         dispatch(action);
-    };
-    const changeTaskStatus = (taskId: string, isDone: boolean, todoId: string) => {
+    },[dispatch]);
+    const changeTaskStatus = useCallback((taskId: string, isDone: boolean, todoId: string) => {
         const action = changeTaskStatusAC(taskId, isDone, todoId);
         dispatch(action);
-    };
-    const changeTaskTitle = (taskId: string, newTitle: string, todoId: string) => {
+    },[dispatch]);
+    const changeTaskTitle = useCallback((taskId: string, newTitle: string, todoId: string) => {
         const action = changeTaskTitleAC(taskId, newTitle, todoId);
         dispatch(action);
-    }
+    },[dispatch]);
 
     //todoLists callBacks:
     const removeTodolist = useCallback((todoId: string) => {
         const action = removeTodolistAC(todoId);
         dispatch(action);
-    }, []);
+    },[dispatch]);
     const createTodolist = useCallback((title: string) => {
         const action = addTodoAC(title);
         dispatch(action);
-    }, []);
+    }, [dispatch]);
     const changeTodoListTitle = useCallback((todoId: string, newTitle: string) => {
         const action = changeTodoTitleAC(newTitle, todoId);
         dispatch(action);
-    }, []);
+    },[dispatch]);
 
     return (
         <div className="App">
@@ -116,7 +116,7 @@ function App() {
                             }*/
 
                             //#3(clear function):
-                            let getTasksForRender = (todoList: TodolistStateType, tasks: TasksStateType): Array<TaskType> => {
+                            /*let getTasksForRender = (todoList: TodolistStateType, tasks: TasksStateType): Array<TaskType> => {
                                 switch (tl.filter) {
                                     case "Active": {
                                         return tasks[tl.id].filter(t => t.isDone);
@@ -127,14 +127,15 @@ function App() {
                                     default:
                                         return tasks[tl.id];
                                 }
-                            };
+                            };*/
 
                             return (
                                 <Todolist
                                     key={tl.id}
                                     todoId={tl.id}
                                     title={tl.title}
-                                    tasks={getTasksForRender(tl, tasks)}
+                                    /*tasks={getTasksForRender(tl, tasks)}*/
+                                    tasks={tasks[tl.id]}
                                     deleteTask={deleteTask}
                                     changeFilter={changeFilter}
                                     createTask={createTask}

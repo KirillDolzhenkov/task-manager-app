@@ -39,22 +39,41 @@ export const tasksReducer = (state: TasksStateType = initialState , action: acti
             }
         }
         case "TL/TASKS/CHANGE_TASK_STATUS": {
-            const stateCopy = {...state};
-            const foundTasks = stateCopy[action.todoId];
+            /*const stateCopy = {...state};*/
+           /* const foundTasks = state[action.todoId];
             const foundTask = foundTasks.find(t => t.id === action.taskId);
             if (foundTask) {
-                foundTask.isDone = action.isDone;
+                let newTask = {...foundTask, isDone: action.isDone}// for useMemo
+                //foundTask.isDone = action.isDone;
             }
-            return stateCopy;
+            state[action.todoId] = [...foundTasks];// for useMemo
+            return ({...state});*/
+
+            const foundTasks = state[action.todoId];
+            state[action.todoId] = foundTasks
+                .map(t => t.id === action.taskId
+                    ? {...t, isDone: action.isDone}
+                    : t
+                );
+            return ({...state});
         }
         case "TL/TASKS/CHANGE_TASK_TITTLE": {
-            const stateCopy = {...state};
-            const foundTasks = stateCopy[action.todoId];
+            /*const stateCopy = {...state};*/
+            /*const foundTasks = state[action.todoId];
             const foundTask = foundTasks.find(t => t.id === action.taskId);
             if (foundTask) {
                 foundTask.title = action.title;
             }
-            return stateCopy;
+            state[action.todoId] = [...foundTasks];// for useMemo
+            return ({...state});*/
+
+            const foundTasks = state[action.todoId];
+            state[action.todoId] = foundTasks
+                .map(t => t.id === action.taskId
+                    ? {...t, title: action.title}
+                    : t
+                );
+            return ({...state});
         }
         case "TL/TODOLIST/ADD_TODOLIST": {
             /*const stateCopy = {...state};
@@ -62,7 +81,6 @@ export const tasksReducer = (state: TasksStateType = initialState , action: acti
             return stateCopy;*/
             return {
                 ...state,
-
                 [action.todoId]: []
 
             }
