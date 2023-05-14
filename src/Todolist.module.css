@@ -1,0 +1,18 @@
+.error {
+    border: red 3px solid;
+}
+
+.errorMessage {
+    color: red;
+}
+
+.activeFilter {
+    background-color: #005cc8;
+
+    opacity: 0.75;
+    color: white;
+}
+
+.isDone {
+    opacity: 0.75;
+}
