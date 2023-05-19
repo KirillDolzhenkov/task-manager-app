@@ -1,3 +1,7 @@
+.unorderedList {
+    list-style-type: none;
+}
+
 .error {
     border: red 3px solid;
 }

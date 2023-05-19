@@ -6,36 +6,38 @@ import styles from "./Todolist.module.css"
 import {Checkbox} from "./Components/Checkbox";
 
 type TodolistPropsType = {
+    todoId: string
     title: string
-    tasks: Array<TaskType>
-    removeTask: (taskId: string) => void
-    addTask: (newTitle: string) => void
+    filter: FilterValueType
+    tasksForTodolist: Array<TaskType>
+    removeTask: (todoId: string, taskId: string) => void
+    addTask: (todoId: string, newTitle: string) => void
     changeStatus: (taskId: string, value: boolean) => void
+    changeFilter: (todoId: string, filter: FilterValueType) => void
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
     const {
+        todoId,
         title,
-        tasks,
+        filter,
+        tasksForTodolist,
         removeTask,
         addTask,
         changeStatus,
+        changeFilter,
     } = props;
 
-    const [filter, setFilter] = useState<FilterValueType>("All");
+    const [filterValue, setFilterValue] = useState<FilterValueType>(filter);
     const [newTask, setNewTask] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
     const inputClassName = error ? styles.error : "";
-    const allClassName = filter === "All" ? styles.activeFilter: "";
-    const activeClassName = filter === "Active" ? styles.activeFilter: "";
-    const completedClassName = filter === "Completed" ? styles.activeFilter: "";
+    const allClassName = filterValue === "All" ? styles.activeFilter: "";
+    const activeClassName = filterValue === "Active" ? styles.activeFilter: "";
+    const completedClassName = filterValue === "Completed" ? styles.activeFilter: "";
     const isDoneClassName = (isDone: boolean) => isDone ? styles.isDone: "";
-
-    const changeFilter = (filterValue: FilterValueType) => {
-        setFilter(filterValue);
-    }
 
     const onChangeTask = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null);
@@ -44,7 +46,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
     const addNewTaskHandler = () => {
         if (newTask.trim() !== "") {
-            addTask(newTask.trim());
+            addTask(todoId, newTask.trim());
             setNewTask("");
         } else {
             setError("Title is required!");
@@ -58,29 +60,23 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         }
     }
 
-    const onClickAllHandler = () => changeFilter("All");
-    const onClickActiveHandler = () => changeFilter("Active");
-    const onClickCompletedHandler = () => changeFilter("Completed");
+    const onClickAllHandler = () => {
+        changeFilter(todoId,"All");
+        setFilterValue("All");
+    };
+    const onClickActiveHandler = () => {
+        changeFilter(todoId,"Active");
+        setFilterValue("Active");
+    };
+    const onClickCompletedHandler = () => {
+        changeFilter(todoId,"Completed");
+        setFilterValue("Completed");
+    };
 
-    const onRemoveHandler = (taskId: string) => removeTask(taskId);
+    const onRemoveHandler = (taskId: string) => removeTask(todoId, taskId);
     const onCheckboxHandler = (taskId: string, checked: boolean) => {
         changeStatus(taskId, checked);
     }
-
-    const tasksForTodo = (filter: FilterValueType) => {
-        switch (filter) {
-            case "Active": {
-                return tasks.filter(t => !t.isDone);
-            }
-            case "Completed": {
-                return tasks.filter(t => t.isDone);
-            }
-            default: {
-                return tasks;
-            }
-        }
-    }
-    const tasksForTodolist = tasksForTodo(filter);
 
     return (
         <div>
@@ -95,7 +91,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                 <Button name={"+"} callBack={addNewTaskHandler}></Button>
             </div>
                 {error && <div className={styles.errorMessage}>{error}</div>}
-            <ul>
+            <ul className={styles.unorderedList}>
                 {tasksForTodolist.map(t => {
                     return (
                         <li key={t.id} className={isDoneClassName(t.isDone)}>
