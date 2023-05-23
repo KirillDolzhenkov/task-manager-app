@@ -12,8 +12,9 @@ type TodolistPropsType = {
     tasksForTodolist: Array<TaskType>
     removeTask: (todoId: string, taskId: string) => void
     addTask: (todoId: string, newTitle: string) => void
-    changeStatus: (taskId: string, value: boolean) => void
+    changeStatus: (todoId: string, taskId: string, value: boolean) => void
     changeFilter: (todoId: string, filter: FilterValueType) => void
+    removeTodo: (todoId: string) => void
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
@@ -27,6 +28,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         addTask,
         changeStatus,
         changeFilter,
+        removeTodo,
     } = props;
 
     const [filterValue, setFilterValue] = useState<FilterValueType>(filter);
@@ -73,14 +75,18 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         setFilterValue("Completed");
     };
 
-    const onRemoveHandler = (taskId: string) => removeTask(todoId, taskId);
+    const onRemoveTaskHandler = (taskId: string) => removeTask(todoId, taskId);
     const onCheckboxHandler = (taskId: string, checked: boolean) => {
-        changeStatus(taskId, checked);
+        changeStatus(todoId, taskId, checked);
+    }
+
+    const onRemoveTodoHandler = () =>{
+        removeTodo(todoId);
     }
 
     return (
         <div>
-            <h3 >{title}</h3>
+            <h3 >{title} <Button name={"X"} callBack={onRemoveTodoHandler}/></h3>
             <div>
                 <input
                     className={`${inputClassName}`}
@@ -95,7 +101,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                 {tasksForTodolist.map(t => {
                     return (
                         <li key={t.id} className={isDoneClassName(t.isDone)}>
-                            <Button name={"X"} callBack={()=>onRemoveHandler(t.id)}></Button>
+                            <Button name={"X"} callBack={()=>onRemoveTaskHandler(t.id)}></Button>
                             <Checkbox
                                 isDone={t.isDone}
                                 callBack={(checkedValue)=>{onCheckboxHandler(t.id, checkedValue)}}

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import {Todolist} from "./Todolist";
+import {Button} from "./Components/Button";
 
 export type FilterValueType =  "All" | "Active" | "Completed"
 
@@ -46,18 +47,25 @@ const App: React.FC = () => {
 
     const removeTask = (todoId: string, taskId: string) => {
         /*setTasksData(tasksData.filter(t => t.id !== taskId));*/
-        setTasksData({...tasksData, [todoId]: tasksData[todoId].filter(el => el.id !== taskId)});
+       /* setTasksData({...tasksData, [todoId]: tasksData[todoId].filter(el => el.id !== taskId)});*/
+        setTasksData({...tasksData, [todoId]: tasksData[todoId].filter(el => el.id !== taskId)} );
     }
 
-    const changeStatus = (taskId: string, value: boolean) => {
+    const changeStatus = (todoId: string, taskId: string, value: boolean) => {
       /*setTasksData(tasksData.map(el => el.id === taskId ? {...el, isDone: value} : el));*/
+        setTasksData({...tasksData, [todoId]: tasksData[todoId].map(el => el.id === taskId ? {...el, isDone: value} : el) });
     }
 
     const addTask = (todoId: string, newTitle: string) => {
        /* let newTask: TaskType = {id: v1(), title: newTitle, isDone: false};
         setTasksData( [newTask, ...tasksData])*/
-        let newTask: TaskType = {id: v1(), title: newTitle, isDone: false}
-        setTasksData( {...tasksData, [todoId]: [newTask, ...tasksData[todoId]]});
+        let newTask: TaskType = {id: v1(), title: newTitle, isDone: false};
+        setTasksData({...tasksData, [todoId]: [newTask, ...tasksData[todoId]]});
+    }
+
+    const removeTodo = (todoId: string) => {
+        setTodoLists(todoLists.filter(el => el.id !== todoId));
+        delete tasksData[todoId];
     }
 
     return (
@@ -89,9 +97,11 @@ const App: React.FC = () => {
                         addTask={addTask}
                         changeStatus={changeStatus}
                         changeFilter={changeFilter}
+                        removeTodo={removeTodo}
                     />
                 )
             })}
+
 
         </div>
     );
