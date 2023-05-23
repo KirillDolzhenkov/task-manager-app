@@ -3,6 +3,7 @@ import { v1 } from 'uuid';
 import './App.css';
 import {Todolist} from "./Todolist";
 import {Button} from "./Components/Button";
+import { AddItemForm } from './Components/addItemForm';
 
 export type FilterValueType =  "All" | "Active" | "Completed"
 
@@ -41,35 +42,42 @@ const App: React.FC = () => {
         ]
     });
 
+    //tasks fns:
     const changeFilter = (todoId: string, filterValue: FilterValueType) => {
         setTodoLists(todoLists.map(tl=>tl.id === todoId ? {...tl, filter: filterValue}: tl));
     }
 
     const removeTask = (todoId: string, taskId: string) => {
-        /*setTasksData(tasksData.filter(t => t.id !== taskId));*/
-       /* setTasksData({...tasksData, [todoId]: tasksData[todoId].filter(el => el.id !== taskId)});*/
         setTasksData({...tasksData, [todoId]: tasksData[todoId].filter(el => el.id !== taskId)} );
     }
 
     const changeStatus = (todoId: string, taskId: string, value: boolean) => {
-      /*setTasksData(tasksData.map(el => el.id === taskId ? {...el, isDone: value} : el));*/
         setTasksData({...tasksData, [todoId]: tasksData[todoId].map(el => el.id === taskId ? {...el, isDone: value} : el) });
     }
 
     const addTask = (todoId: string, newTitle: string) => {
-       /* let newTask: TaskType = {id: v1(), title: newTitle, isDone: false};
-        setTasksData( [newTask, ...tasksData])*/
         let newTask: TaskType = {id: v1(), title: newTitle, isDone: false};
         setTasksData({...tasksData, [todoId]: [newTask, ...tasksData[todoId]]});
     }
 
+
+    //todoLists fns:
     const removeTodo = (todoId: string) => {
         setTodoLists(todoLists.filter(el => el.id !== todoId));
         delete tasksData[todoId];
     }
 
+    const addTodo = (title: string) => {
+        let newId = v1();
+        let newTodo: TodoListType =  {id: newId, title, filter: "All"};
+        setTodoLists([newTodo,...todoLists]);
+        setTasksData({[newId]:[], ...tasksData});
+    }
+
     return (
         <div className="App">
+            <AddItemForm addItem={addTodo}/>
+
             {todoLists.map(tl => {
 
                 const tasksForTodo = (): Array<TaskType> => {
@@ -101,7 +109,6 @@ const App: React.FC = () => {
                     />
                 )
             })}
-
 
         </div>
     );

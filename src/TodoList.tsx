@@ -4,6 +4,7 @@ import {FilterValueType, TaskType} from "./App";
 import {Button} from "./Components/Button";
 import styles from "./Todolist.module.css"
 import {Checkbox} from "./Components/Checkbox";
+import {AddItemForm} from "./Components/addItemForm";
 
 type TodolistPropsType = {
     todoId: string
@@ -32,21 +33,26 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     } = props;
 
     const [filterValue, setFilterValue] = useState<FilterValueType>(filter);
-    const [newTask, setNewTask] = useState<string>("");
-    const [error, setError] = useState<string | null>(null);
+    /*const [newTask, setNewTask] = useState<string>("");
+    const [error, setError] = useState<string | null>(null);*/
 
-    const inputClassName = error ? styles.error : "";
+    /*const inputClassName = error ? styles.error : "";*/
     const allClassName = filterValue === "All" ? styles.activeFilter: "";
     const activeClassName = filterValue === "Active" ? styles.activeFilter: "";
     const completedClassName = filterValue === "Completed" ? styles.activeFilter: "";
     const isDoneClassName = (isDone: boolean) => isDone ? styles.isDone: "";
 
-    const onChangeTask = (e: React.ChangeEvent<HTMLInputElement>) => {
+    /*const onChangeTask = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null);
         setNewTask(e.currentTarget.value);
+    }*/
+
+    const addTaskCallback = (title: string) => {
+        addTask(todoId, title);
     }
 
-    const addNewTaskHandler = () => {
+
+    /*const addNewTaskHandler = () => {
         if (newTask.trim() !== "") {
             addTask(todoId, newTask.trim());
             setNewTask("");
@@ -54,13 +60,13 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
             setError("Title is required!");
         }
 
-    }
+    }*/
 
-    const onButtonHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    /*const onButtonHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             addNewTaskHandler();
         }
-    }
+    }*/
 
     const onClickAllHandler = () => {
         changeFilter(todoId,"All");
@@ -84,10 +90,14 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         removeTodo(todoId);
     }
 
+
     return (
         <div>
             <h3 >{title} <Button name={"X"} callBack={onRemoveTodoHandler}/></h3>
-            <div>
+
+            <AddItemForm addItem={addTaskCallback}/>
+
+            {/*<div>
                 <input
                     className={`${inputClassName}`}
                     onChange={onChangeTask}
@@ -95,8 +105,8 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                     onKeyDown={onButtonHandler}
                 />
                 <Button name={"+"} callBack={addNewTaskHandler}></Button>
-            </div>
-                {error && <div className={styles.errorMessage}>{error}</div>}
+            </div>*/}
+                {/*{error && <div className={styles.errorMessage}>{error}</div>}*/}
             <ul className={styles.unorderedList}>
                 {tasksForTodolist.map(t => {
                     return (
