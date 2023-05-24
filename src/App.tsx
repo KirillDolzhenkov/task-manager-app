@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import { v1 } from 'uuid';
+import {v1} from 'uuid';
+
 import './App.css';
 import {Todolist} from "./Todolist";
-import {Button} from "./Components/Button";
-import { AddItemForm } from './Components/addItemForm';
+import {AddItemForm} from './Components/AddItemForm';
 
 export type FilterValueType =  "All" | "Active" | "Completed"
 
@@ -60,6 +60,10 @@ const App: React.FC = () => {
         setTasksData({...tasksData, [todoId]: [newTask, ...tasksData[todoId]]});
     }
 
+    const changeTaskTitle = (todoId: string, taskId: string, title: string) => {
+        setTasksData({...tasksData, [todoId]: tasksData[todoId].map(el => el.id === taskId ? {...el, title: title} : el)});
+    }
+
 
     //todoLists fns:
     const removeTodo = (todoId: string) => {
@@ -74,9 +78,13 @@ const App: React.FC = () => {
         setTasksData({[newId]:[], ...tasksData});
     }
 
+    const changeTodoTitle = (todoId: string, title: string) => {
+        setTodoLists(todoLists.map(el => el.id === todoId ? {...el, title: title} : el));
+    }
+
     return (
         <div className="App">
-            <AddItemForm addItem={addTodo}/>
+            <AddItemForm callback={addTodo}/>
 
             {todoLists.map(tl => {
 
@@ -106,6 +114,8 @@ const App: React.FC = () => {
                         changeStatus={changeStatus}
                         changeFilter={changeFilter}
                         removeTodo={removeTodo}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTodoTitle={changeTodoTitle}
                     />
                 )
             })}

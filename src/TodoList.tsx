@@ -4,7 +4,8 @@ import {FilterValueType, TaskType} from "./App";
 import {Button} from "./Components/Button";
 import styles from "./Todolist.module.css"
 import {Checkbox} from "./Components/Checkbox";
-import {AddItemForm} from "./Components/addItemForm";
+import {AddItemForm} from "./Components/AddItemForm";
+import {EditTableSpan} from "./Components/EdittableSpan";
 
 type TodolistPropsType = {
     todoId: string
@@ -16,6 +17,8 @@ type TodolistPropsType = {
     changeStatus: (todoId: string, taskId: string, value: boolean) => void
     changeFilter: (todoId: string, filter: FilterValueType) => void
     removeTodo: (todoId: string) => void
+    changeTaskTitle: (todoId: string, taskId: string, title: string) => void
+    changeTodoTitle: (todoId: string, title: string) => void
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
@@ -30,43 +33,28 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         changeStatus,
         changeFilter,
         removeTodo,
+        changeTaskTitle,
+        changeTodoTitle,
     } = props;
 
     const [filterValue, setFilterValue] = useState<FilterValueType>(filter);
-    /*const [newTask, setNewTask] = useState<string>("");
-    const [error, setError] = useState<string | null>(null);*/
 
-    /*const inputClassName = error ? styles.error : "";*/
     const allClassName = filterValue === "All" ? styles.activeFilter: "";
     const activeClassName = filterValue === "Active" ? styles.activeFilter: "";
     const completedClassName = filterValue === "Completed" ? styles.activeFilter: "";
     const isDoneClassName = (isDone: boolean) => isDone ? styles.isDone: "";
 
-    /*const onChangeTask = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setError(null);
-        setNewTask(e.currentTarget.value);
-    }*/
-
     const addTaskCallback = (title: string) => {
         addTask(todoId, title);
     }
 
+    const changeTaskCallback = (taskId: string, title: string) => {
+        changeTaskTitle(todoId, taskId, title);
+    }
 
-    /*const addNewTaskHandler = () => {
-        if (newTask.trim() !== "") {
-            addTask(todoId, newTask.trim());
-            setNewTask("");
-        } else {
-            setError("Title is required!");
-        }
-
-    }*/
-
-    /*const onButtonHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            addNewTaskHandler();
-        }
-    }*/
+    const changeTodoCallback = (title: string) => {
+        changeTodoTitle(todoId, title);
+    }
 
     const onClickAllHandler = () => {
         changeFilter(todoId,"All");
@@ -93,20 +81,11 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
     return (
         <div>
-            <h3 >{title} <Button name={"X"} callBack={onRemoveTodoHandler}/></h3>
-
-            <AddItemForm addItem={addTaskCallback}/>
-
-            {/*<div>
-                <input
-                    className={`${inputClassName}`}
-                    onChange={onChangeTask}
-                    value={newTask}
-                    onKeyDown={onButtonHandler}
-                />
-                <Button name={"+"} callBack={addNewTaskHandler}></Button>
-            </div>*/}
-                {/*{error && <div className={styles.errorMessage}>{error}</div>}*/}
+            <h3 >
+                <EditTableSpan title={title} callback={changeTodoCallback}/>
+                <Button name={"X"} callBack={onRemoveTodoHandler}/>
+            </h3>
+            <AddItemForm callback={addTaskCallback}/>
             <ul className={styles.unorderedList}>
                 {tasksForTodolist.map(t => {
                     return (
@@ -116,7 +95,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                                 isDone={t.isDone}
                                 callBack={(checkedValue)=>{onCheckboxHandler(t.id, checkedValue)}}
                             />
-                            <span>{t.title}</span>
+                            <EditTableSpan title={t.title} callback={(title)=>changeTaskCallback(t.id, title)}/>
                         </li>
                     )
                 })}

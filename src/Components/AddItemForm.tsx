@@ -1,15 +1,16 @@
 import React, {useState} from "react";
+
 import {Button} from "./Button";
 import styles from "../Todolist.module.css";
 
 type AddItemFormPropsType = {
-    addItem: (title: string) => void
+    callback: (title: string) => void
 }
 
 export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
 
     const {
-        addItem,
+        callback,
     } = props;
 
     const [newTask, setNewTask] = useState<string>("");
@@ -24,8 +25,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
 
     const addNewTaskHandler = () => {
         if (newTask.trim() !== "") {
-            /*addTask(todoId, newTask.trim());*/
-            addItem(newTask.trim());
+            callback(newTask.trim());
             setNewTask("");
         } else {
             setError("Title is required!");
