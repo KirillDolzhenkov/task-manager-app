@@ -56,7 +56,7 @@ const App: React.FC = () => {
     }
 
     const addTask = (todoId: string, newTitle: string) => {
-        let newTask: TaskType = {id: v1(), title: newTitle, isDone: false};
+        const newTask: TaskType = {id: v1(), title: newTitle, isDone: false};
         setTasksData({...tasksData, [todoId]: [newTask, ...tasksData[todoId]]});
     }
 
@@ -72,8 +72,8 @@ const App: React.FC = () => {
     }
 
     const addTodo = (title: string) => {
-        let newId = v1();
-        let newTodo: TodoListType =  {id: newId, title, filter: "All"};
+        const newId = v1();
+        const newTodo: TodoListType =  {id: newId, title, filter: "All"};
         setTodoLists([newTodo,...todoLists]);
         setTasksData({[newId]:[], ...tasksData});
     }
@@ -87,7 +87,6 @@ const App: React.FC = () => {
             <AddItemForm callback={addTodo}/>
 
             {todoLists.map(tl => {
-
                 const tasksForTodo = (): Array<TaskType> => {
                     switch (tl.filter) {
                         case "Active": {
@@ -119,7 +118,6 @@ const App: React.FC = () => {
                     />
                 )
             })}
-
         </div>
     );
 }
