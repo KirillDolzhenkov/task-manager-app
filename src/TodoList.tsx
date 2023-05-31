@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
+import Button from "@mui/material/Button";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Checkbox from '@mui/material/Checkbox';
 
 import {FilterValueType, TaskType} from "./App";
-import {Button} from "./Components/Button";
+/*import {Button} from "./Components/Button";*/
 import styles from "./Todolist.module.css"
-import {Checkbox} from "./Components/Checkbox";
+/*import {Checkbox} from "./Components/Checkbox";*/
 import {AddItemForm} from "./Components/AddItemForm";
 import {EditTableSpan} from "./Components/EdittableSpan";
 
@@ -39,9 +43,14 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
     const [filterValue, setFilterValue] = useState<FilterValueType>(filter);
 
-    const allClassName = filterValue === "All" ? styles.activeFilter: "";
+    /*const allClassName = filterValue === "All" ? styles.activeFilter: "";
     const activeClassName = filterValue === "Active" ? styles.activeFilter: "";
-    const completedClassName = filterValue === "Completed" ? styles.activeFilter: "";
+    const completedClassName = filterValue === "Completed" ? styles.activeFilter: "";*/
+
+    const allBtnVariant = filterValue === "All" ? "contained" : "outlined";
+    const activeBtnVariant = filterValue === "Active" ? "contained" : "outlined";
+    const completedBtnVariant = filterValue === "Completed" ? "contained" : "outlined";
+
     const isDoneClassName = (isDone: boolean) => isDone ? styles.isDone: "";
 
     const addTaskCallback = (title: string) => {
@@ -83,17 +92,28 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         <div>
             <h3 >
                 <EditTableSpan title={title} callback={changeTodoCallback}/>
-                <Button name={"X"} callBack={onRemoveTodoHandler}/>
+                {/*<Button name={"X"} callBack={onRemoveTodoHandler}/>*/}
+                <IconButton aria-label="delete" size="small" onClick={onRemoveTodoHandler}>
+                    <DeleteIcon fontSize="inherit" />
+                </IconButton>
+
             </h3>
             <AddItemForm callback={addTaskCallback}/>
             <ul className={styles.unorderedList}>
                 {tasksForTodolist.map(t => {
                     return (
                         <li key={t.id} className={isDoneClassName(t.isDone)}>
-                            <Button name={"X"} callBack={()=>onRemoveTaskHandler(t.id)}></Button>
-                            <Checkbox
+                            {/*<Button name={"X"} callBack={()=>onRemoveTaskHandler(t.id)}></Button>*/}
+                            <IconButton aria-label="delete" size="small" onClick={()=>onRemoveTaskHandler(t.id)}>
+                                <DeleteIcon fontSize="inherit" />
+                            </IconButton>
+                            {/*<Checkbox
                                 isDone={t.isDone}
                                 callBack={(checkedValue)=>{onCheckboxHandler(t.id, checkedValue)}}
+                            />*/}
+                            <Checkbox
+                                checked={t.isDone}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>)=>{onCheckboxHandler(t.id, e.currentTarget.checked)}}
                             />
                             <EditTableSpan title={t.title} callback={(title)=>changeTaskCallback(t.id, title)}/>
                         </li>
@@ -101,9 +121,12 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                 })}
             </ul>
             <div>
-                <Button className={allClassName} name={"All"} callBack={onClickAllHandler}></Button>
+                {/*<Button className={allClassName} name={"All"} callBack={onClickAllHandler}></Button>
                 <Button className={activeClassName} name={"Active"} callBack={onClickActiveHandler}></Button>
-                <Button className={completedClassName} name={"Completed"} callBack={onClickCompletedHandler}></Button>
+                <Button className={completedClassName} name={"Completed"} callBack={onClickCompletedHandler}></Button>*/}
+                <Button variant={allBtnVariant}  onClick={onClickAllHandler}>All</Button>
+                <Button variant={activeBtnVariant}  onClick={onClickActiveHandler}>Active</Button>
+                <Button variant={completedBtnVariant}  onClick={onClickCompletedHandler}>Completed</Button>
             </div>
         </div>
     )

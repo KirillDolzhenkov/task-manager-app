@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import TextField from "@mui/material/TextField";
 
 type EditTableSpanPropsType = {
     title: string
@@ -34,8 +35,18 @@ export const EditTableSpan: React.FC<EditTableSpanPropsType> = (props) => {
 
     return (
         isEdit
-            ? <input
+            ? /*<input
                 type="text"
+                value={stateTitle}
+                onBlur={changeEditMode}
+                onChange={onTitleHandler}
+                autoFocus
+            />*/
+            <TextField
+                id="standard-basic"
+                size="small"
+                label="Standard"
+                variant="standard"
                 value={stateTitle}
                 onBlur={changeEditMode}
                 onChange={onTitleHandler}

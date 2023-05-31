@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
 import {v1} from 'uuid';
+import Container from '@mui/material/Container';
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 
 import './App.css';
 import {Todolist} from "./Todolist";
 import {AddItemForm} from './Components/AddItemForm';
+import {ButtonAppBar} from "./Components/ButtonAppBar";
+
 
 export type FilterValueType =  "All" | "Active" | "Completed"
 
@@ -84,40 +89,54 @@ const App: React.FC = () => {
 
     return (
         <div className="App">
-            <AddItemForm callback={addTodo}/>
+            <ButtonAppBar/>
 
-            {todoLists.map(tl => {
-                const tasksForTodo = (): Array<TaskType> => {
-                    switch (tl.filter) {
-                        case "Active": {
-                            return tasksData[tl.id].filter(t => !t.isDone);
-                        }
-                        case "Completed": {
-                            return tasksData[tl.id].filter(t => t.isDone);
-                        }
-                        default: {
-                            return tasksData[tl.id];
-                        }
-                    }
-                }
+            <Container fixed>
+                <Grid container style={{padding: "20px"}}>
+                    <AddItemForm callback={addTodo}/>
+                </Grid>
 
-                return (
-                    <Todolist
-                        key={tl.id}
-                        todoId={tl.id}
-                        title={tl.title}
-                        filter={tl.filter}
-                        tasksForTodolist={tasksForTodo()}
-                        removeTask={removeTask}
-                        addTask={addTask}
-                        changeStatus={changeStatus}
-                        changeFilter={changeFilter}
-                        removeTodo={removeTodo}
-                        changeTaskTitle={changeTaskTitle}
-                        changeTodoTitle={changeTodoTitle}
-                    />
-                )
-            })}
+                <Grid container spacing={3}>
+                    {todoLists.map(tl => {
+                        const tasksForTodo = (): Array<TaskType> => {
+                            switch (tl.filter) {
+                                case "Active": {
+                                    return tasksData[tl.id].filter(t => !t.isDone);
+                                }
+                                case "Completed": {
+                                    return tasksData[tl.id].filter(t => t.isDone);
+                                }
+                                default: {
+                                    return tasksData[tl.id];
+                                }
+                            }
+                        }
+
+                        return (
+
+                            <Grid item  key={tl.id}>
+                                <Paper style={{padding: "10px"}} elevation={3}>
+                                    <Todolist
+                                        key={tl.id}
+                                        todoId={tl.id}
+                                        title={tl.title}
+                                        filter={tl.filter}
+                                        tasksForTodolist={tasksForTodo()}
+                                        removeTask={removeTask}
+                                        addTask={addTask}
+                                        changeStatus={changeStatus}
+                                        changeFilter={changeFilter}
+                                        removeTodo={removeTodo}
+                                        changeTaskTitle={changeTaskTitle}
+                                        changeTodoTitle={changeTodoTitle}
+                                    />
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
+
         </div>
     );
 }
