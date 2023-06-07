@@ -47,9 +47,9 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     const activeClassName = filterValue === "Active" ? styles.activeFilter: "";
     const completedClassName = filterValue === "Completed" ? styles.activeFilter: "";*/
 
-    const allBtnVariant = filterValue === "All" ? "contained" : "outlined";
-    const activeBtnVariant = filterValue === "Active" ? "contained" : "outlined";
-    const completedBtnVariant = filterValue === "Completed" ? "contained" : "outlined";
+    const allBtnVariant = filterValue === "all" ? "contained" : "outlined";
+    const activeBtnVariant = filterValue === "active" ? "contained" : "outlined";
+    const completedBtnVariant = filterValue === "completed" ? "contained" : "outlined";
 
     const isDoneClassName = (isDone: boolean) => isDone ? styles.isDone: "";
 
@@ -66,16 +66,16 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     }
 
     const onClickAllHandler = () => {
-        changeFilter(todoId,"All");
-        setFilterValue("All");
+        changeFilter(todoId,"all");
+        setFilterValue("all");
     };
     const onClickActiveHandler = () => {
-        changeFilter(todoId,"Active");
-        setFilterValue("Active");
+        changeFilter(todoId,"active");
+        setFilterValue("active");
     };
     const onClickCompletedHandler = () => {
-        changeFilter(todoId,"Completed");
-        setFilterValue("Completed");
+        changeFilter(todoId,"completed");
+        setFilterValue("completed");
     };
 
     const onRemoveTaskHandler = (taskId: string) => removeTask(todoId, taskId);

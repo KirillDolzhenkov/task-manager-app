@@ -2,6 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+type StudentType = {
+    id: number
+    name: string
+}
+
+type FriendsType = {
+    [key: string]: Array<string>
+}
+
+const TestComponent = () => {
+
+}
 
 
 const root = ReactDOM.createRoot(
