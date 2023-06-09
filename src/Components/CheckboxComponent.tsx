@@ -5,7 +5,7 @@ type CheckboxPropsType = {
     callBack:  (checkedValue: boolean) => void
 }
 
-export const Checkbox: React.FC<CheckboxPropsType> = (props) => {
+export const CheckboxComponent: React.FC<CheckboxPropsType> = (props) => {
 
     const {
         isDone,
@@ -13,7 +13,7 @@ export const Checkbox: React.FC<CheckboxPropsType> = (props) => {
     } = props;
 
     const onchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        callBack(e.currentTarget.checked)
+        callBack(e.currentTarget.checked);
     }
 
     return (

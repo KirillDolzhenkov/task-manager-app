@@ -9,14 +9,21 @@ import {Todolist} from "./Todolist";
 import {AddItemForm} from './Components/AddItemForm';
 import {ButtonAppBar} from "./Components/ButtonAppBar";
 import {changeFilterAC, tasksReducer} from "./reducers/tasksReducer";
+import {
+    addTodoAC,
+    changeTodoTitleAC,
+    changeTodoFilterAC,
+    removeTodoAC,
+    todolistsReducer
+} from "./reducers/todolistsReducer";
 
 
-export type FilterValueType =  "all" | "active" | "completed"
+export type FilterValuesType =  "all" | "active" | "completed"
 
 export type TodoListType = {
     id: string
     title: string
-    filter: FilterValueType
+    filter: FilterValuesType
 }
 
 export type TaskType = {
@@ -34,7 +41,7 @@ const App: React.FC = () => {
     const TodolistId1 = v1();
     const TodolistId2 = v1();
 
-    const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
+    const [todoLists, dispatchTodoLists] = useReducer(todolistsReducer,[
         {id: TodolistId1, title: "What to learn", filter: "all"},
         {id: TodolistId2, title: "What to read", filter: "active"},
     ]);
@@ -77,6 +84,7 @@ const App: React.FC = () => {
     const removeTodo = (todoId: string) => {
        /* setTodoLists(todoLists.filter(el => el.id !== todoId));
         delete tasksData[todoId];*/
+        dispatchTodoLists(removeTodoAC(todoId));
     }
 
     const addTodo = (title: string) => {
@@ -84,15 +92,17 @@ const App: React.FC = () => {
         const newTodo: TodoListType =  {id: newId, title, filter: "All"};
         setTodoLists([newTodo,...todoLists]);
         setTasksData({[newId]:[], ...tasksData});*/
+        dispatchTodoLists(addTodoAC(title));
     }
 
     const changeTodoTitle = (todoId: string, title: string) => {
        /* setTodoLists(todoLists.map(el => el.id === todoId ? {...el, title: title} : el));*/
+        dispatchTodoLists(changeTodoTitleAC(todoId, title));
     }
 
-    const changeFilter = (todoId: string, filterValue: FilterValueType) => {
+    const changeFilter = (todoId: string, filterValue: FilterValuesType) => {
         /*setTodoLists(todoLists.map(tl=>tl.id === todoId ? {...tl, filter: filterValue}: tl));*/
-
+        dispatchTodoLists(changeTodoFilterAC(todoId, filterValue));
     }
 
     return (

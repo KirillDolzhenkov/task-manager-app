@@ -1,4 +1,4 @@
-import {FilterValueType, TaskType} from "../App";
+import {FilterValuesType, TaskType} from "../App";
 
 type InitialStateType = {
     [key: string]: TaskType[];
@@ -37,7 +37,7 @@ type ChangeStatusACType = ReturnType<typeof changeStatusAC>
 type AddTaskACType = ReturnType<typeof addTaskAC>
 type ChangeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
 
-export const changeFilterAC = (todoId: string, filterValue: FilterValueType) => {
+export const changeFilterAC = (todoId: string, filterValue: FilterValuesType) => {
     return {
         type: "TL/TASKS/CHANGE_FILTER",
         payload: {

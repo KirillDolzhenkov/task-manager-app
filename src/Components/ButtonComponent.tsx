@@ -7,13 +7,15 @@ type ButtonPropsType = {
     className?: string
 }
 
-export const Button: React.FC<ButtonPropsType> = (props) => {
+export const ButtonComponent: React.FC<ButtonPropsType> = (props) => {
 
     const {
         name,
         callBack,
         className = '',
     } = props;
+
+
 
     const onclickHAndler = () => {
         callBack();

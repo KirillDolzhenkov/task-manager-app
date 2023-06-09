@@ -4,22 +4,23 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 
-import {FilterValueType, TaskType} from "./App";
-/*import {Button} from "./Components/Button";*/
+import {FilterValuesType, TaskType} from "./App";
+import {ButtonComponent} from "./Components/ButtonComponent";
 import styles from "./Todolist.module.css"
-/*import {Checkbox} from "./Components/Checkbox";*/
+import {CheckboxComponent} from "./Components/CheckboxComponent";
 import {AddItemForm} from "./Components/AddItemForm";
 import {EditTableSpan} from "./Components/EdittableSpan";
+
 
 type TodolistPropsType = {
     todoId: string
     title: string
-    filter: FilterValueType
+    filter: FilterValuesType
     tasksForTodolist: Array<TaskType>
     removeTask: (todoId: string, taskId: string) => void
     addTask: (todoId: string, newTitle: string) => void
     changeStatus: (todoId: string, taskId: string, value: boolean) => void
-    changeFilter: (todoId: string, filter: FilterValueType) => void
+    changeFilter: (todoId: string, filter: FilterValuesType) => void
     removeTodo: (todoId: string) => void
     changeTaskTitle: (todoId: string, taskId: string, title: string) => void
     changeTodoTitle: (todoId: string, title: string) => void
@@ -41,7 +42,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         changeTodoTitle,
     } = props;
 
-    const [filterValue, setFilterValue] = useState<FilterValueType>(filter);
+    const [filterValue, setFilterValue] = useState<FilterValuesType>(filter);
 
     /*const allClassName = filterValue === "All" ? styles.activeFilter: "";
     const activeClassName = filterValue === "Active" ? styles.activeFilter: "";
@@ -103,18 +104,18 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                 {tasksForTodolist.map(t => {
                     return (
                         <li key={t.id} className={isDoneClassName(t.isDone)}>
-                            {/*<Button name={"X"} callBack={()=>onRemoveTaskHandler(t.id)}></Button>*/}
-                            <IconButton aria-label="delete" size="small" onClick={()=>onRemoveTaskHandler(t.id)}>
+                            <ButtonComponent name={"X"} callBack={()=>onRemoveTaskHandler(t.id)}></ButtonComponent>
+                            {/*<IconButton aria-label="delete" size="small" onClick={()=>onRemoveTaskHandler(t.id)}>
                                 <DeleteIcon fontSize="inherit" />
-                            </IconButton>
-                            {/*<Checkbox
+                            </IconButton>*/}
+                            <CheckboxComponent
                                 isDone={t.isDone}
                                 callBack={(checkedValue)=>{onCheckboxHandler(t.id, checkedValue)}}
-                            />*/}
-                            <Checkbox
+                            />
+                            {/*<Checkbox
                                 checked={t.isDone}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>)=>{onCheckboxHandler(t.id, e.currentTarget.checked)}}
-                            />
+                            />*/}
                             <EditTableSpan title={t.title} callback={(title)=>changeTaskCallback(t.id, title)}/>
                         </li>
                     )
