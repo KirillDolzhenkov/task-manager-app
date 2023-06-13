@@ -8,7 +8,6 @@ import './App.css';
 import {Todolist} from "./Todolist";
 import {AddItemForm} from './Components/AddItemForm';
 import {ButtonAppBar} from "./Components/ButtonAppBar";
-import {changeFilterAC, tasksReducer} from "./reducers/tasksReducer";
 import {
     addTodoAC,
     changeTodoTitleAC,
@@ -16,6 +15,7 @@ import {
     removeTodoAC,
     todolistsReducer
 } from "./reducers/todolistsReducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./reducers/tasksReducer";
 
 
 export type FilterValuesType =  "all" | "active" | "completed"
@@ -32,7 +32,7 @@ export type TaskType = {
     isDone: boolean
 }
 
-type TasksStateType = {
+export type TasksStateType = {
     [todoId: string]: TaskType[];
 }
 
@@ -46,7 +46,7 @@ const App: React.FC = () => {
         {id: TodolistId2, title: "What to read", filter: "active"},
     ]);
 
-    const [tasksData, dispatchTasks] = useState<TasksStateType>( {
+    const [tasksData, dispatchTasks] = useReducer(tasksReducer, {
         [TodolistId1] : [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "React", isDone: false},
@@ -63,20 +63,24 @@ const App: React.FC = () => {
 
 
     const removeTask = (todoId: string, taskId: string) => {
-       /* setTasksData({...tasksData, [todoId]: tasksData[todoId].filter(el => el.id !== taskId)} );*/
+       /* setTasksData({...tasksData, [todoId]: tasksData[todoId].filter(el => el.id !== taskId)} );**/
+        dispatchTasks(removeTaskAC(todoId, taskId));
     }
 
     const changeStatus = (todoId: string, taskId: string, value: boolean) => {
         /*setTasksData({...tasksData, [todoId]: tasksData[todoId].map(el => el.id === taskId ? {...el, isDone: value} : el) });*/
+        dispatchTasks(changeTaskStatusAC(todoId,taskId,value));
     }
 
     const addTask = (todoId: string, newTitle: string) => {
        /* const newTask: TaskType = {id: v1(), title: newTitle, isDone: false};
         setTasksData({...tasksData, [todoId]: [newTask, ...tasksData[todoId]]});*/
+        dispatchTasks(addTaskAC(todoId, newTitle));
     }
 
     const changeTaskTitle = (todoId: string, taskId: string, title: string) => {
         /*setTasksData({...tasksData, [todoId]: tasksData[todoId].map(el => el.id === taskId ? {...el, title: title} : el)});*/
+        dispatchTasks(changeTaskTitleAC(todoId, taskId, title));
     }
 
 

@@ -1,51 +1,64 @@
-import {FilterValuesType, TaskType} from "../App";
+import {v1} from "uuid";
+import {TasksStateType, TaskType} from "../App";
 
-type InitialStateType = {
+/*type InitialStateType = {
     [key: string]: TaskType[];
-}
+}*/
 
-export const tasksReducer = (state: InitialStateType, action: TasksActionType) => {
+export const tasksReducer = (state: TasksStateType, action: TasksActionType): TasksStateType => {
     switch (action.type) {
-        case "TL/TASKS/CHANGE_FILTER": {
-            return state
-        }
-        case "TL/TASKS/REMOVE_TASK":{
-            return state;
+
+        case "TL/TASKS/REMOVE_TASK": {
+            /*if (!state.hasOwnProperty(action.payload.todoId)) {
+                return state;
+            }*/
+            return {
+                ...state, [action.payload.todoId]: state[action.payload.todoId]
+                    .filter(el => el.id !== action.payload.taskId)
+            }
         }
         case "TL/TASKS/CHANGE_STATUS": {
-            return state;
+            return {
+                ...state,
+                [action.payload.todoId]: state[action.payload.todoId]
+                    .map(el => el.id === action.payload.taskId
+                        ? {...el, isDone: action.payload.value}
+                        : el)
+            }
         }
         case "TL/TASKS/ADD_TASK": {
-            return state;
+            const newTask: TaskType = {id: v1(), title: action.payload.newTitle, isDone: false}
+            return {
+                ...state,
+                [action.payload.todoId]: [newTask, ...state[action.payload.todoId]]
+            }
         }
         case "TL/TASKS/CHANGE_TITLE": {
+            return {
+                ...state,
+                [action.payload.todoId]: state[action.payload.todoId]
+                    .map(el => el.id === action.payload.taskId
+                        ? {...el, title: action.payload.title}
+                        : el)
+            }
             return state;
         }
-        default: return state;
+        default:
+            return state;
     }
 }
 
-export type TasksActionType = ChangeFilterACType
-    | RemoveTaskACType
+export type TasksActionType = RemoveTaskACType
     | ChangeStatusACType
     | AddTaskACType
     | ChangeTaskTitleACType
 
-type ChangeFilterACType = ReturnType<typeof changeFilterAC>
+
 type RemoveTaskACType = ReturnType<typeof removeTaskAC>
-type ChangeStatusACType = ReturnType<typeof changeStatusAC>
+type ChangeStatusACType = ReturnType<typeof changeTaskStatusAC>
 type AddTaskACType = ReturnType<typeof addTaskAC>
 type ChangeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
 
-export const changeFilterAC = (todoId: string, filterValue: FilterValuesType) => {
-    return {
-        type: "TL/TASKS/CHANGE_FILTER",
-        payload: {
-            todoId,
-            filterValue,
-        }
-    } as const
-}
 
 export const removeTaskAC = (todoId: string, taskId: string) => {
     return {
@@ -57,7 +70,7 @@ export const removeTaskAC = (todoId: string, taskId: string) => {
     } as const
 }
 
-export const changeStatusAC = (todoId: string, taskId: string, value: boolean) => {
+export const changeTaskStatusAC = (todoId: string, taskId: string, value: boolean) => {
     return {
         type: "TL/TASKS/CHANGE_STATUS",
         payload: {
