@@ -97,6 +97,7 @@ const App: React.FC = () => {
         setTodoLists([newTodo,...todoLists]);
         setTasksData({[newId]:[], ...tasksData});*/
         dispatchTodoLists(addTodoAC(title));
+        dispatchTasks(addTodoAC(title));
     }
 
     const changeTodoTitle = (todoId: string, title: string) => {

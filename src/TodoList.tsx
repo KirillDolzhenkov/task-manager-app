@@ -101,7 +101,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
             </h3>
             <AddItemForm callback={addTaskCallback}/>
             <ul className={styles.unorderedList}>
-                {tasksForTodolist.map(t => {
+                {tasksForTodolist?.map(t => {
                     return (
                         <li key={t.id} className={isDoneClassName(t.isDone)}>
                             <ButtonComponent name={"X"} callBack={()=>onRemoveTaskHandler(t.id)}></ButtonComponent>
