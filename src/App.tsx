@@ -59,8 +59,9 @@ const App: React.FC = () => {
         ]
     });
 
-    //tasks fns:
 
+
+    //tasks fns:
 
     const removeTask = (todoId: string, taskId: string) => {
        /* setTasksData({...tasksData, [todoId]: tasksData[todoId].filter(el => el.id !== taskId)} );**/
@@ -120,7 +121,8 @@ const App: React.FC = () => {
                 </Grid>
 
                 <Grid container spacing={3}>
-                    {todoLists.map(tl => {
+                    {
+                        todoLists.map(tl => {
                         const tasksForTodo = (): Array<TaskType> => {
                             switch (tl.filter) {
                                 case "active": {

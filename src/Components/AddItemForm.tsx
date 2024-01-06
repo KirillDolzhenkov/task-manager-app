@@ -14,7 +14,6 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
     const {
         callback,
     } = props;
-
     const [newTask, setNewTask] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
