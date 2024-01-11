@@ -41,10 +41,21 @@ function App() {
         setTasks([...tasks, newTask]);
     }
 
-
     const changFilterValue = (filterValue: FilterValueType) => {
         setFilterValue(filterValue);
     }
+
+    const changeIsDoneValue = (id: string, isDone: boolean) => {
+        
+    }
+
+
+
+
+
+    /*const changeIsDoneValue = (id: string, isDone: boolean) => {
+        setTasks(tasks.map(el=>el.id === id ? {...el, isDone: isDone}: el));
+    }*/
 
     const getTasksForTodolist = (filterValue: FilterValueType) => {
         let tasksForTodoList = tasks;
@@ -73,6 +84,7 @@ function App() {
                 removeTask={removeTask}
                 addTask={addTask}
                 changFilterValue={changFilterValue}
+                changeIsDoneValue={changeIsDoneValue}
             />
         )
     });
