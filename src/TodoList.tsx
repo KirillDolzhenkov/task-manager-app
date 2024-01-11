@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {FilterValueType, TasksType} from "./App";
 import {Button} from "./components/Button";
+import styles from "./Todolist.module.css";
 
 type TodolistPropsType = {
     id: string
@@ -25,7 +26,12 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     } = props;*/
 
     const [title, setTitle] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState<string | null>("");
+    const [selectedButton, setSelectedButton] = useState<FilterValueType>("All");
+
+    const allButtonClassname = selectedButton === "All" ? styles.selectedButton : "";
+    const activeButtonClassname = selectedButton === "Active" ? styles.selectedButton : "";
+    const completedButtonClassname = selectedButton === "Completed" ? styles.selectedButton : "";
 
     const onChangeInput= (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.currentTarget.value);
@@ -40,7 +46,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         if(!title){
             setError("The title field is required");
         } else {
-            props.addTask(title);
+            props.addTask(title.trim());
             setTitle("");
         }
     }
@@ -52,6 +58,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
     const onChangeFilter = (filterValue: FilterValueType) => {
         props.changFilterValue(filterValue);
+        setSelectedButton(filterValue);
     }
 
     const onIsDoneValue = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +88,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                     checked={t.isDone}
                     onChange={(event)=>onIsDoneValue(t.id, event)}
                 />
-                <span>{t.name}</span>
+                <span className={t.isDone ? styles.isDone : ""}>{t.name}</span>
             </li>
         )
     })
@@ -99,21 +106,24 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                     name={"+"}
                     callBack={()=>onAddTask(title)}
                 />
-                {error ? <div style={{"color": "red"}}>{error}</div> : ""}
+                {error && <div style={{"color": "red"}}>{error}</div> }
             </div>
             <ul>
                 {mappedTasks}
             </ul>
             <div>
                 <Button
+                    className={allButtonClassname}
                     name={"All"}
                     callBack={() => onChangeFilter('All')}
                 />
                 <Button
+                    className={activeButtonClassname}
                     name={"Active"}
                     callBack={() => onChangeFilter('Active')}
                 />
                 <Button
+                    className={completedButtonClassname}
                     name={"Completed"}
                     callBack={() => onChangeFilter('Completed')}
                 />
