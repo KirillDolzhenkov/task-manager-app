@@ -6,11 +6,13 @@ import styles from "./Todolist.module.css";
 type TodolistPropsType = {
     id: string
     name: string
+    filter: FilterValueType
     tasks: TasksType[]
-    removeTask: (id: string) => void
-    addTask: (title: string) => void
-    changFilterValue: (filterValue: FilterValueType) => void
-    changeIsDoneValue: (id: string, isDone: boolean) => void
+    removeTask: (todoListId: string,taskId: string) => void
+    addTask: (todoListId: string, title: string) => void
+    changFilterValue: (id: string, filterValue: FilterValueType) => void
+    changeIsDoneValue: (todoListId: string, taskId: string, isDone: boolean) => void
+    removeTodoLIst: (todoListId: string ) => void
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
@@ -27,7 +29,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
     const [title, setTitle] = useState("");
     const [error, setError] = useState<string | null>("");
-    const [selectedButton, setSelectedButton] = useState<FilterValueType>("All");
+    const [selectedButton, setSelectedButton] = useState<FilterValueType>(props.filter);
 
     const allButtonClassname = selectedButton === "All" ? styles.selectedButton : "";
     const activeButtonClassname = selectedButton === "Active" ? styles.selectedButton : "";
@@ -38,15 +40,15 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         setError("");
     }
 
-    const onRemoveTask = (taskId: string) => {
-        props.removeTask(taskId);
+    const onRemoveTask = (id: string, taskId: string) => {
+        props.removeTask(id, taskId);
     }
 
     const onAddTask = (title: string) => {
         if(!title){
             setError("The title field is required");
         } else {
-            props.addTask(title.trim());
+            props.addTask(props.id, title.trim());
             setTitle("");
         }
     }
@@ -56,13 +58,13 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         onAddTask(title);
     }
 
-    const onChangeFilter = (filterValue: FilterValueType) => {
-        props.changFilterValue(filterValue);
+    const onChangeFilter = (id: string, filterValue: FilterValueType) => {
+        props.changFilterValue(props.id, filterValue);
         setSelectedButton(filterValue);
     }
 
-    const onIsDoneValue = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
-        props.changeIsDoneValue(id, e.currentTarget.checked);
+    const onIsDoneValue = (taskId: string, e: React.ChangeEvent<HTMLInputElement>) => {
+        props.changeIsDoneValue(props.id, taskId, e.currentTarget.checked);
     }
 
     const onInputKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -73,15 +75,17 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         onChangeInput(event);
     }
 
+    const onRemoveTodoHandler = (todoListId: string) => {
+        props.removeTodoLIst(todoListId);
+    }
 
 
     const mappedTasks = props.tasks.map(t => {
-
         return (
             <li key={t.id}>
                 <Button
                     name={"X"}
-                    callBack={()=>onRemoveTask(t.id)}
+                    callBack={()=>onRemoveTask(props.id, t.id)}
                 />
                 <input
                     type="checkbox"
@@ -95,7 +99,14 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
     return (
         <div>
-            <h3>{props.name}</h3>
+            <h3>
+                {props.name}
+                <Button
+                    name={"X"}
+                    callBack={()=>onRemoveTodoHandler(props.id)}
+                />
+            </h3>
+
             <div>
                 <input
                     value={title}
@@ -115,17 +126,17 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                 <Button
                     className={allButtonClassname}
                     name={"All"}
-                    callBack={() => onChangeFilter('All')}
+                    callBack={() => onChangeFilter(props.id, 'All')}
                 />
                 <Button
                     className={activeButtonClassname}
                     name={"Active"}
-                    callBack={() => onChangeFilter('Active')}
+                    callBack={() => onChangeFilter(props.id,'Active')}
                 />
                 <Button
                     className={completedButtonClassname}
                     name={"Completed"}
-                    callBack={() => onChangeFilter('Completed')}
+                    callBack={() => onChangeFilter(props.id,'Completed')}
                 />
             </div>
         </div>
