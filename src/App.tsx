@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import {Todolist} from './Todolist';
+import {AddItemForm} from "./components/AddItemForm";
 
 export type TasksType = {
     id: string
@@ -43,8 +44,6 @@ function App() {
         ]
     });
 
-    console.log(tasks)
-
     const [todoLists, setTodoLists] = useState<Array<TodoListsType>>([
         {id: todoListId1, name: 'What to learn', filterValue: "All"},
         {id: todoListId2, name: 'What to bye', filterValue: "All"},
@@ -67,6 +66,10 @@ function App() {
         setTasks({...tasks, [todoListId]: tasks[todoListId].map(el=>el.id === taskId ? {...el, isDone} : el)});
     }
 
+    const changeTaskTitle = (todoListId: string, taskId: string, name: string) => {
+        setTasks({...tasks, [todoListId]: tasks[todoListId].map(el=>el.id ===taskId ? {...el, name}: el)});
+    }
+
     const getTasksForTodolist = (todoListId: string, filterValue: FilterValueType) => {
         let tasksForTodoList = tasks[todoListId];
         switch (filterValue) {
@@ -86,7 +89,17 @@ function App() {
     const removeTodoLIst = (todoListId: string) => {
         setTodoLists([...todoLists.filter(el=>el.id !== todoListId)]);
         delete tasks[todoListId];
-        console.table(tasks)
+    }
+
+    const AddTodoList = (title: string) => {
+        const newId = v1();
+        const newTodoList: TodoListsType = {id: newId, name: title, filterValue: "All"}
+        setTodoLists( [newTodoList, ...todoLists]);
+        setTasks({[newId]: [], ...tasks});
+    }
+
+    const changeTodoTitle = (todoListId: string, name: string) => {
+        setTodoLists(todoLists.map(el => el.id === todoListId ? {...el, name}: el));
     }
 
     const mappedTodoLists = todoLists.map(tl => {
@@ -102,6 +115,8 @@ function App() {
                 changFilterValue={changFilterValue}
                 changeIsDoneValue={changeIsDoneValue}
                 removeTodoLIst={removeTodoLIst}
+                changeTaskTitle={changeTaskTitle}
+                changeTodoTitle={changeTodoTitle}
             />
         )
     });
@@ -109,6 +124,7 @@ function App() {
 
     return (
         <div className="App">
+            <AddItemForm addItem={(title)=>AddTodoList(title)}/>
             {mappedTodoLists}
         </div>
     );
