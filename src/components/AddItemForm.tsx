@@ -52,5 +52,5 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
                 {error && <div style={{"color": "red"}}>{error}</div> }
             </div>
         </>
-    )
+    );
 }

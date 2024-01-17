@@ -14,33 +14,31 @@ export const EditTableSpan: React.FC<EditTableSpanPropsType> = (props) => {
     const editTableSpanClassname = props.className ?? "";
 
     const onEditHandler = () => {
-        setIsEditMode(true);
+        setIsEditMode(!isEditMode);
     }
-    const onInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.currentTarget.value)
-    }
-
     const onCallBack = () => {
         props.callBack(name);
-        setIsEditMode(false);
+    }
+    const onInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.currentTarget.value);
+    }
+    const onBlurHandler = () => {
+        onCallBack();
+        onEditHandler();
     }
 
     return (
-        <>
-            {
-                isEditMode
-                    ? <input
-                        type="text"
-                        value={name}
-                        onChange={(event) => onInputChangeHandler(event)}
-                        onBlur={onCallBack}
-                        autoFocus
-                    />
-                    : <span
-                        className={editTableSpanClassname}
-                        onDoubleClick={onEditHandler}
-                    >{name}</span>
-            }
-        </>
-    )
+        isEditMode
+            ? <input
+                type="text"
+                value={name}
+                onChange={(event) => onInputChangeHandler(event)}
+                onBlur={onBlurHandler}
+                autoFocus
+            />
+            : <span
+                className={editTableSpanClassname}
+                onDoubleClick={onEditHandler}
+            >{name}</span>
+    );
 }

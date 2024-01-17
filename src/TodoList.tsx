@@ -75,7 +75,6 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                     checked={t.isDone}
                     onChange={(event) => onIsDoneValue(t.id, event)}
                 />
-                {/*<span className={t.isDone ? styles.isDone : ""}>{t.name}</span>*/}
                 <EditTableSpan
                     className={t.isDone ? styles.isDone : ""}
                     name={t.name}
@@ -92,7 +91,6 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                     name={props.name}
                     callBack={(title)=>onUpdateTodo(title)}
                 />
-                {/*{props.name}*/}
                 <Button
                     name={"X"}
                     callBack={()=>onRemoveTodoHandler(props.id)}

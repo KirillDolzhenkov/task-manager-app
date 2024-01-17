@@ -18,5 +18,5 @@ export const Button: React.FC<ButtonPropsType> = (props) => {
             className={buttonClassname}
             onClick={onclickHandler}
         >{props.name}</button>
-    )
+    );
 }
