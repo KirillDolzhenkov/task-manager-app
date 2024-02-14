@@ -3,6 +3,11 @@ import { v1 } from 'uuid';
 import './App.css';
 import {Todolist} from './Todolist';
 import {AddItemForm} from "./components/AddItemForm";
+import {ButtonAppBar} from "./ButtonAppBar";
+import Container from "@mui/material/Container";
+import Grid from '@mui/material/Grid'
+import Paper from '@mui/material/Paper';
+
 
 export type TasksType = {
     id: string
@@ -104,28 +109,41 @@ function App() {
 
     const mappedTodoLists = todoLists.map(tl => {
         return (
-            <Todolist
-                key={tl.id}
-                id={tl.id}
-                name={tl.name}
-                filter={tl.filterValue}
-                tasks={getTasksForTodolist(tl.id, tl.filterValue)}
-                removeTask={removeTask}
-                addTask={addTask}
-                changFilterValue={changFilterValue}
-                changeIsDoneValue={changeIsDoneValue}
-                removeTodoLIst={removeTodoLIst}
-                changeTaskTitle={changeTaskTitle}
-                changeTodoTitle={changeTodoTitle}
-            />
+            <Grid item>
+                <Paper elevation={5} sx={{padding: "20px"}}>
+                    <Todolist
+                        key={tl.id}
+                        id={tl.id}
+                        name={tl.name}
+                        filter={tl.filterValue}
+                        tasks={getTasksForTodolist(tl.id, tl.filterValue)}
+                        removeTask={removeTask}
+                        addTask={addTask}
+                        changFilterValue={changFilterValue}
+                        changeIsDoneValue={changeIsDoneValue}
+                        removeTodoLIst={removeTodoLIst}
+                        changeTaskTitle={changeTaskTitle}
+                        changeTodoTitle={changeTodoTitle}
+                    />
+                </Paper>
+            </Grid>
         )
     });
 
 
     return (
         <div className="App">
-            <AddItemForm addItem={(title)=>AddTodoList(title)}/>
-            {mappedTodoLists}
+            <ButtonAppBar/>
+            <Container fixed>
+                <Grid container sx={{padding: "20px"}}>
+                    <Grid item>
+                        <AddItemForm addItem={(title) => AddTodoList(title)}/>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={3}>
+                    {mappedTodoLists}
+                </Grid>
+            </Container>
         </div>
     );
 }

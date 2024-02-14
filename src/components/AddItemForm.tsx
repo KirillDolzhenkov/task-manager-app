@@ -1,5 +1,7 @@
 import React, {useState} from "react";
-import {Button} from "./Button";
+import Button from "@mui/material/Button";
+import {ButtonComponent} from "./ButtonComponent";
+import TextField from "@mui/material/TextField";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -9,6 +11,13 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
 
     const [title, setTitle] = useState("");
     const [error, setError] = useState<string | null>("");
+
+    const ButtonStyles = {
+        maxWidth: '39px',
+        maxHeight: '39px',
+        minWidth: '39px',
+        minHeight: '39px'
+    }
 
     const onChangeInput= (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.currentTarget.value);
@@ -40,16 +49,34 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
     return (
         <>
             <div>
-                <input
+                <TextField
+                    error={!!error}
+                    size="small"
+                    variant="outlined"
+                    label={error ? error : "Type something..."}
                     value={title}
                     onKeyDown={onInputKeyDownHandler}
                     onChange={onInputChangeHandler}
                 />
-                <Button
+                {/*<input
+                    value={title}
+                    onKeyDown={onInputKeyDownHandler}
+                    onChange={onInputChangeHandler}
+                />*/}
+
+                {/*<ButtonComponent
                     name={"+"}
                     callBack={()=>onAddItem(title)}
-                />
-                {error && <div style={{"color": "red"}}>{error}</div> }
+                />*/}
+
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={()=>onAddItem(title)}
+                    sx={ButtonStyles}
+                >+</Button>
+
+                {/*{error && <div style={{"color": "red"}}>{error}</div> }*/}
             </div>
         </>
     );
