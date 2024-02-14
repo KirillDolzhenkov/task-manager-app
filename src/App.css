@@ -6,3 +6,20 @@
 .App > div {
   margin-right: 50px;
 }*/
+
+
+.input-section > div {
+    margin-right: 10px;
+}
+
+.filter-section button {
+    margin-right: 10px;
+}
+
+.filter-section button:last-child {
+    margin-right: 0;
+}
+
+.tasks-list {
+    list-style-type: none;
+}

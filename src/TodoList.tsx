@@ -77,7 +77,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
     const mappedTasks: JSX.Element[] = props.tasks.map(t => {
         return (
-            <li key={t.id}>
+            <li key={t.id} >
 
                 {/*<ButtonComponent
                     name={"X"}
@@ -132,11 +132,11 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
             <AddItemForm addItem={(title)=>onAddTask(props.id, title)}/>
 
-            <ul>
+            <ul className="tasks-list">
                 {mappedTasks}
             </ul>
 
-            <div>
+            <div className="filter-section">
                 <Button
                     variant={allButtonVariant}
                     onClick={onAllHandler}

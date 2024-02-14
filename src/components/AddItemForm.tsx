@@ -48,7 +48,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
 
     return (
         <>
-            <div>
+            <div className="input-section">
                 <TextField
                     error={!!error}
                     size="small"
