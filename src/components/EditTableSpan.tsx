@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import TextField from "@mui/material/TextField";
 
 type EditTableSpanPropsType = {
@@ -7,7 +7,9 @@ type EditTableSpanPropsType = {
     className?: string
 }
 
-export const EditTableSpan: React.FC<EditTableSpanPropsType> = (props) => {
+export const EditTableSpan: React.FC<EditTableSpanPropsType> = React.memo(({callBack,...props}) => {
+
+    console.log("EditTableSpan")
 
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [name, setName] = useState<string>(props.name);
@@ -17,30 +19,29 @@ export const EditTableSpan: React.FC<EditTableSpanPropsType> = (props) => {
     const onEditHandler = () => {
         setIsEditMode(!isEditMode);
     }
-    const onCallBack = () => {
-        props.callBack(name.trim());
-    }
+
+    const onCallBack = useCallback(() => {
+        callBack(name.trim());
+    }, [callBack]);
+
     const onInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.currentTarget.value);
     }
+
     const onBlurHandler = () => {
         if(!name.trim()){
             setError("The title field is required");
         } else {
             onCallBack();
-            onEditHandler();
+            setIsEditMode(!isEditMode);
         }
     }
 
-    const onEnterPress  = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key !== 'Enter') return;
-        if(!name.trim()){
-            setError("The title field is required");
-        } else {
-            onCallBack();
-            onEditHandler();
+    /*const onEnterPress  = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            onBlurHandler();
         }
-    }
+    }*/
 
     return (
         isEditMode
@@ -52,7 +53,7 @@ export const EditTableSpan: React.FC<EditTableSpanPropsType> = (props) => {
                 value={name}
                 onChange={onInputChangeHandler}
                 onBlur={onBlurHandler}
-                onKeyPress={onEnterPress}
+                /*onKeyDown={onEnterPress}*/
                 autoFocus
             />
             : <span
@@ -60,4 +61,4 @@ export const EditTableSpan: React.FC<EditTableSpanPropsType> = (props) => {
                 onDoubleClick={onEditHandler}
             >{name}</span>
     );
-}
+})

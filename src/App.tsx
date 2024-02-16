@@ -1,8 +1,8 @@
-import React, {useReducer} from 'react';
-import {v1} from 'uuid';
+import React, {useCallback} from 'react';
 import Container from "@mui/material/Container";
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper';
+import {useDispatch, useSelector} from "react-redux";
 
 import './App.css';
 import {Todolist} from './Todolist';
@@ -12,11 +12,14 @@ import {
     addTodoListAC,
     changFilterValueAC,
     removeTodoListAC,
-    TodolistReducer,
     updateTodoListTitleAC
 } from "./redusers/TodolistReducer";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC, TasksReducer, updateTaskTitleAC} from "./redusers/TasksReducer";
-import {useDispatch, useSelector} from "react-redux";
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    removeTaskAC,
+    updateTaskTitleAC
+} from "./redusers/TasksReducer";
 import {RootReducerType} from "./store/store";
 
 export type TasksType = {
@@ -39,61 +42,43 @@ export type FilterValueType = "all" | "active" | "completed"
 
 function App() {
 
+    console.log("App")
+
     const dispatch = useDispatch();
-    const tasks = useSelector<RootReducerType, TasksStateType>((state) => state.tasks);
     const todoLists = useSelector<RootReducerType, TodoListsType[]>((state) => state.todoLists);
+    const tasks = useSelector<RootReducerType, TasksStateType>((state) => state.tasks);
 
-
-    const addTask = (todoId: string, title: string) => {
-        dispatch(addTaskAC(todoId, title));
-    }
-
-    const removeTask = (todoId: string, taskId: string) => {
-        dispatch(removeTaskAC(todoId, taskId));
-    }
-
-    const changeIsDoneValue = (todoId: string, taskId: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(todoId, taskId, isDone));
-    }
-
-    const changeTaskTitle = (todoId: string, taskId: string, name: string) => {
-        dispatch(updateTaskTitleAC(todoId, taskId, name));
-    }
-
-    const addTodoList = (title: string) => {
+    const addTodoList = useCallback((title: string) => {
         const action = addTodoListAC(title);
         dispatch(action);
-    }
+    },[dispatch]);
 
-    const removeTodoLIst = (todoId: string) => {
+    const removeTodoLIst = useCallback((todoId: string) => {
         const action = removeTodoListAC(todoId);
         dispatch(action);
-    }
+    },[dispatch]);
 
-    const changFilterValue = (todoId: string, filterValue: FilterValueType) => {
+    const changFilterValue = useCallback((todoId: string, filterValue: FilterValueType) => {
         dispatch(changFilterValueAC(todoId, filterValue));
-    }
+    },[dispatch]);
 
-    const updateTodoListTitle = (todoId: string, title: string) => {
-        dispatch(updateTodoListTitleAC(todoId, title));
-    }
+    const updateTodoListTitle = useCallback((todoId: string, title: string) => {
+        dispatch(updateTodoListTitleAC(todoId, title))
+    },[dispatch]);
 
     const mappedTodoLists: JSX.Element[] = todoLists.map(tl => {
+        let tasksForTodoList: TasksType[] = tasks[tl.todoId];
         return (
             <Grid item key={tl.todoId}>
                 <Paper elevation={5} sx={{padding: "20px"}}>
                     <Todolist
                         /*key={tl.TodoId}*/
                         TodoId={tl.todoId}
+                        tasks={tasksForTodoList}
                         name={tl.name}
                         filter={tl.filterValue}
-                        tasks={tasks[tl.todoId]}
-                        removeTask={removeTask}
-                        addTask={addTask}
                         changFilterValue={changFilterValue}
-                        changeIsDoneValue={changeIsDoneValue}
                         removeTodoLIst={removeTodoLIst}
-                        changeTaskTitle={changeTaskTitle}
                         changeTodoTitle={updateTodoListTitle}
                     />
                 </Paper>
@@ -108,7 +93,7 @@ function App() {
             <Container fixed>
                 <Grid container sx={{padding: "20px"}}>
                     <Grid item>
-                        <AddItemForm addItem={(title) => addTodoList(title)}/>
+                        <AddItemForm addItem={addTodoList}/>
                     </Grid>
                 </Grid>
                 <Grid container spacing={3}>

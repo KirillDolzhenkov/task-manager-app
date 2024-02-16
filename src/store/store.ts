@@ -10,6 +10,41 @@ const RootReducer = combineReducers({
     tasks: TasksReducer
 });
 
-console.log(RootReducer)
-
 export const store = legacy_createStore(RootReducer);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

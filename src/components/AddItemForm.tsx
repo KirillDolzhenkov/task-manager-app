@@ -6,11 +6,13 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((props) => {
+
+    console.log('AddItemForm');
 
     const [title, setTitle] = useState("");
     const [error, setError] = useState<string | null>("");
-    const isDisabled = !title.trim()
+    const isDisabled = !title.trim();
 
     const ButtonStyles = {
         maxWidth: '39px',
@@ -66,4 +68,4 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
             </div>
         </>
     );
-}
+})

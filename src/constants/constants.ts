@@ -12,3 +12,9 @@ export const ACTION_TYPE = {
         UPDATE_TODO_TITLE: "TL/TODOLIST/UPDATE_TODO_TITLE",
     }
 } as const
+
+export const FILTER_VALUE = {
+    ALL: "all",
+    ACTIVE: "active",
+    COMPLETED: "completed"
+} as const
