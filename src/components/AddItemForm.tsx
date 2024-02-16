@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { OwnButton } from "./ButtonComponent";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -58,13 +59,20 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo((props) =>
                     onKeyDown={onInputKeyDownHandler}
                     onChange={onInputChangeHandler}
                 />
-                <Button
+                {/*<Button
                     disabled={isDisabled}
                     variant="contained"
                     color="primary"
                     onClick={()=>onAddItem(title)}
                     sx={ButtonStyles}
-                >+</Button>
+                >+</Button>*/}
+                <OwnButton
+                    disabled={isDisabled}
+                    variant="contained"
+                    color="primary"
+                    callBack={()=>onAddItem(title)}
+                    sx={ButtonStyles}
+                >+</OwnButton>
             </div>
         </>
     );

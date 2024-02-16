@@ -29,7 +29,7 @@ type TodolistPropsType = {
 export const Todolist: React.FC<TodolistPropsType> = React.memo(({removeTodoLIst, changeTodoTitle, changFilterValue, ...props}) => {
 
     console.log("Todolist")
-    
+
     const dispatch = useDispatch();
     const [selectedButton, setSelectedButton] = useState<FilterValueType>(props.filter);
 
@@ -114,7 +114,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(({removeTodoLIst
                 {mappedTasks}
             </ul>
             <div className="filter-section">
-                <Button
+                {/*<Button
                     variant={allButtonVariant}
                     onClick={onAllHandler}
                 >All</Button>
@@ -125,11 +125,20 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(({removeTodoLIst
                 <Button
                     variant={completedButtonVariant}
                     onClick={onCompletedHandler}
-                >Completed</Button>
-                {/*<OwnButton
+                >Completed</Button>*/}
+
+                <OwnButton
+                    variant={allButtonVariant}
+                    callBack={onAllHandler}
+                >Completed</OwnButton>
+                <OwnButton
+                    variant={activeButtonVariant}
+                    callBack={onActiveHandler}
+                >Completed</OwnButton>
+                <OwnButton
                     variant={completedButtonVariant}
                     callBack={onCompletedHandler}
-                >Completed</OwnButton>*/}
+                >Completed</OwnButton>
             </div>
         </div>
     );

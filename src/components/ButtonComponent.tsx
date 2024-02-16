@@ -4,21 +4,22 @@ import Button, {ButtonOwnProps} from "@mui/material/Button";
 type DefaultMUIButtonPropsType = ButtonOwnProps;
 
 type ButtonPropsType = DefaultMUIButtonPropsType & {
-    className?: string
+    /*className?: string*/
     callBack: () => void
 }
 
 export const OwnButton: React.FC<ButtonPropsType> = (props) => {
-    const buttonClassname = props.className ?? "";
+    /*const buttonClassname = props.className ?? "";*/
     const onclickHandler = () => {
         props.callBack();
     }
 
     return (
         <Button
+            sx={props.sx}
+            disabled={props.disabled}
             variant={props.variant}
             color={props.color}
-            className={buttonClassname}
             onClick={onclickHandler}
         >{props.children}</Button>
     );
