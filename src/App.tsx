@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { v1 } from 'uuid';
-import './App.css';
-import {Todolist} from './Todolist';
-import {AddItemForm} from "./components/AddItemForm";
-import {ButtonAppBar} from "./ButtonAppBar";
 import Container from "@mui/material/Container";
 import Grid from '@mui/material/Grid'
 import Paper from '@mui/material/Paper';
 
+import './App.css';
+import {Todolist} from './Todolist';
+import {AddItemForm} from "./components/AddItemForm";
+import {ButtonAppBar} from "./ButtonAppBar";
 
 export type TasksType = {
     id: string
@@ -21,17 +21,9 @@ export type TodoListsType = {
     filterValue: FilterValueType
 }
 
-export type FilterValueType = "All" | "Active" | "Completed"
+export type FilterValueType = "all" | "active" | "completed"
 
 function App() {
-
-    /*const [tasks, setTasks] = useState<Array<TasksType>>([
-        {id: v1(), isDone: true, name: 'HTML&CSS'},
-        {id: v1(), isDone: true, name: 'JS'},
-        {id: v1(), isDone: false, name: 'React'},
-    ]);*/
-
-    /*const [filterValue, setFilterValue] = useState<FilterValueType>("All");*/
 
     const todoListId1 = v1();
     const todoListId2 = v1();
@@ -50,8 +42,8 @@ function App() {
     });
 
     const [todoLists, setTodoLists] = useState<Array<TodoListsType>>([
-        {id: todoListId1, name: 'What to learn', filterValue: "All"},
-        {id: todoListId2, name: 'What to bye', filterValue: "All"},
+        {id: todoListId1, name: 'What to learn', filterValue: "active"},
+        {id: todoListId2, name: 'What to bye', filterValue: "all"},
     ]);
 
     const removeTask = (todoListId: string, taskId: string) => {
@@ -75,7 +67,7 @@ function App() {
         setTasks({...tasks, [todoListId]: tasks[todoListId].map(el=>el.id ===taskId ? {...el, name}: el)});
     }
 
-    const getTasksForTodolist = (todoListId: string, filterValue: FilterValueType) => {
+    /*const getTasksForTodolist = (todoListId: string, filterValue: FilterValueType) => {
         let tasksForTodoList = tasks[todoListId];
         switch (filterValue) {
             case "Active": {
@@ -89,7 +81,7 @@ function App() {
             }
         }
 
-    }
+    }*/
 
     const removeTodoLIst = (todoListId: string) => {
         setTodoLists([...todoLists.filter(el=>el.id !== todoListId)]);
@@ -98,7 +90,7 @@ function App() {
 
     const AddTodoList = (title: string) => {
         const newId = v1();
-        const newTodoList: TodoListsType = {id: newId, name: title, filterValue: "All"}
+        const newTodoList: TodoListsType = {id: newId, name: title, filterValue: "all"}
         setTodoLists( [newTodoList, ...todoLists]);
         setTasks({[newId]: [], ...tasks});
     }
@@ -107,7 +99,7 @@ function App() {
         setTodoLists(todoLists.map(el => el.id === todoListId ? {...el, name}: el));
     }
 
-    const mappedTodoLists = todoLists.map(tl => {
+    const mappedTodoLists: JSX.Element[] = todoLists.map(tl => {
         return (
             <Grid item>
                 <Paper elevation={5} sx={{padding: "20px"}}>
@@ -116,7 +108,7 @@ function App() {
                         id={tl.id}
                         name={tl.name}
                         filter={tl.filterValue}
-                        tasks={getTasksForTodolist(tl.id, tl.filterValue)}
+                        tasks={tasks[tl.id]}
                         removeTask={removeTask}
                         addTask={addTask}
                         changFilterValue={changFilterValue}

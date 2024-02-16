@@ -1,17 +1,15 @@
 import React, {useState} from "react";
-import {FilterValueType, TasksType} from "./App";
-import {ButtonComponent} from "./components/ButtonComponent";
-import {AddItemForm} from "./components/AddItemForm";
-import styles from "./Todolist.module.css";
-import {EditTableSpan} from "./components/EditTableSpan";
-
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import Button from "@mui/material/Button";
 import {jsx} from "@emotion/react";
 import JSX = jsx.JSX;
-import Button from "@mui/material/Button";
+
+import {FilterValueType, TasksType} from "./App";
+import {AddItemForm} from "./components/AddItemForm";
+import styles from "./Todolist.module.css";
+import {EditTableSpan} from "./components/EditTableSpan";
 
 type TodolistPropsType = {
     id: string
@@ -29,26 +27,18 @@ type TodolistPropsType = {
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
-    /*const {
-        id,
-        name,
-        tasks,
-        removeTask,
-        addTask,
-        changFilterValue,
-        changeIsDoneValue
-    } = props;*/
-
     const [selectedButton, setSelectedButton] = useState<FilterValueType>(props.filter);
+    const allButtonVariant = selectedButton === "all" ? "contained" : "outlined";
+    const activeButtonVariant = selectedButton === "active" ? "contained" : "outlined";
+    const completedButtonVariant = selectedButton === "completed" ? "contained" : "outlined";
 
-    /*const allButtonClassname = selectedButton === "All" ? styles.selectedButton : "";
-    const activeButtonClassname = selectedButton === "Active" ? styles.selectedButton : "";
-    const completedButtonClassname = selectedButton === "Completed" ? styles.selectedButton : "";*/
-
-    const allButtonVariant = selectedButton === "All" ? "contained" : "outlined";
-    const activeButtonVariant = selectedButton === "Active" ? "contained" : "outlined";
-    const completedButtonVariant = selectedButton === "Completed" ? "contained" : "outlined";
-
+    let tasksForTodoList = props.tasks;
+    if (props.filter) {
+        tasksForTodoList = props.tasks.filter(t => !t.isDone);
+    }
+    if (props.filter) {
+        tasksForTodoList = props.tasks.filter(t => t.isDone);
+    }
     const onRemoveTask = (id: string, taskId: string) => {
         props.removeTask(id, taskId);
     }
@@ -62,39 +52,27 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     const onRemoveTodoHandler = (todoListId: string) => {
         props.removeTodoLIst(todoListId);
     }
-
     const onAddTask = (taskId: string, title: string) => {
         props.addTask(taskId, title);
     }
-
     const onUpdateTask = (taskId: string, title: string) => {
         props.changeTaskTitle(props.id, taskId, title);
     }
-
-    const onUpdateTodo = (title: string)=> {
+    const onUpdateTodo = (title: string) => {
         props.changeTodoTitle(props.id, title);
     }
+    const onAllHandler = () => onChangeFilter(props.id, 'all');
+    const onActiveHandler = () => onChangeFilter(props.id, 'active');
+    const onCompletedHandler = () => onChangeFilter(props.id, 'completed');
 
-    const mappedTasks: JSX.Element[] = props.tasks.map(t => {
+    const mappedTasks: JSX.Element[] = tasksForTodoList.map(t => {
         return (
             <li key={t.id} >
-
-                {/*<ButtonComponent
-                    name={"X"}
-                    callBack={()=>onRemoveTask(props.id, t.id)}
-                />*/}
-
                 <Checkbox
                     checked={t.isDone}
                     onChange={(event) => onIsDoneValue(t.id, event)}
                 />
 
-
-                {/*<input
-                    type="checkbox"
-                    checked={t.isDone}
-                    onChange={(event) => onIsDoneValue(t.id, event)}
-                />*/}
                 <EditTableSpan
                     className={t.isDone ? styles.isDone : ""}
                     name={t.name}
@@ -108,10 +86,6 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         )
     });
 
-    const onAllHandler = () => onChangeFilter(props.id, 'All');
-    const onActiveHandler = () => onChangeFilter(props.id, 'Active');
-    const onCompletedHandler = () => onChangeFilter(props.id, 'Completed');
-
     return (
         <div>
             <h3>
@@ -119,11 +93,6 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                     name={props.name}
                     callBack={(title)=>onUpdateTodo(title)}
                 />
-
-                {/*<ButtonComponent
-                    name={"X"}
-                    callBack={()=>onRemoveTodoHandler(props.id)}
-                />*/}
 
                 <IconButton>
                     <DeleteIcon onClick={()=>onRemoveTodoHandler(props.id)}/>
@@ -141,33 +110,17 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                     variant={allButtonVariant}
                     onClick={onAllHandler}
                 >All</Button>
+
                 <Button
                     variant={activeButtonVariant}
                     onClick={onActiveHandler}
                 >Active</Button>
+
                 <Button
                     variant={completedButtonVariant}
                     onClick={onCompletedHandler}
                 >Completed</Button>
-
-
-                {/*<ButtonComponent
-                    className={allButtonClassname}
-                    name={"All"}
-                    callBack={() => onChangeFilter(props.id, 'All')}
-                />
-                <ButtonComponent
-                    className={activeButtonClassname}
-                    name={"Active"}
-                    callBack={() => onChangeFilter(props.id,'Active')}
-                />
-                <ButtonComponent
-                    className={completedButtonClassname}
-                    name={"Completed"}
-                    callBack={() => onChangeFilter(props.id,'Completed')}
-                />*/}
-
             </div>
         </div>
-    )
+    );
 }
