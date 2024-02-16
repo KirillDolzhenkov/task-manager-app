@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import Button from "@mui/material/Button";
-import {ButtonComponent} from "./ButtonComponent";
 import TextField from "@mui/material/TextField";
 
 type AddItemFormPropsType = {
@@ -11,6 +10,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
 
     const [title, setTitle] = useState("");
     const [error, setError] = useState<string | null>("");
+    const isDisabled = !title.trim()
 
     const ButtonStyles = {
         maxWidth: '39px',
@@ -25,7 +25,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
     }
 
     const onAddItem = (title: string) => {
-        if(!title){
+        if(!title.trim()){
             setError("The title field is required");
         } else {
             props.addItem(title.trim());
@@ -37,11 +37,9 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
         if (event.key !== 'Enter') return;
         onAddItem(title);
     }
-
     const onInputKeyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
         onEnterPress(event);
     }
-
     const onInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChangeInput(event);
     }
@@ -58,25 +56,13 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = (props) => {
                     onKeyDown={onInputKeyDownHandler}
                     onChange={onInputChangeHandler}
                 />
-                {/*<input
-                    value={title}
-                    onKeyDown={onInputKeyDownHandler}
-                    onChange={onInputChangeHandler}
-                />*/}
-
-                {/*<ButtonComponent
-                    name={"+"}
-                    callBack={()=>onAddItem(title)}
-                />*/}
-
                 <Button
+                    disabled={isDisabled}
                     variant="contained"
                     color="primary"
                     onClick={()=>onAddItem(title)}
                     sx={ButtonStyles}
                 >+</Button>
-
-                {/*{error && <div style={{"color": "red"}}>{error}</div> }*/}
             </div>
         </>
     );
