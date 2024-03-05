@@ -7,7 +7,7 @@ type EditTableSpanPropsType = {
     className?: string
 }
 
-export const EditTableSpan: React.FC<EditTableSpanPropsType> = React.memo(({callBack,...props}) => {
+export const EditTableSpan= React.memo(({callBack,...props}: EditTableSpanPropsType) => {
 
     console.log("EditTableSpan")
 
@@ -15,6 +15,7 @@ export const EditTableSpan: React.FC<EditTableSpanPropsType> = React.memo(({call
     const [name, setName] = useState<string>(props.name);
     const [error, setError] = useState<string | null>("");
     const editTableSpanClassname = props.className ?? "";
+    const labelText =  error ? error : "Type something...";
 
     const onEditHandler = () => {
         setIsEditMode(!isEditMode);
@@ -49,7 +50,7 @@ export const EditTableSpan: React.FC<EditTableSpanPropsType> = React.memo(({call
                 error={!!error}
                 size="small"
                 variant="standard"
-                label={error ? error : "Type something..."}
+                label={labelText}
                 value={name}
                 onChange={onInputChangeHandler}
                 onBlur={onBlurHandler}
