@@ -4,8 +4,7 @@ import {FilterValueType, TodoListsType} from "../App";
 
 import {todoListId1, todoListId2} from "./TasksReducer";
 
-type MutualType =
-    |ReturnType<typeof addTodoListAC>
+type MutualType = ReturnType<typeof addTodoListAC>
     | ReturnType<typeof removeTodoListAC>
     | ReturnType<typeof changFilterValueAC>
     | ReturnType<typeof updateTodoListTitleAC>
@@ -54,32 +53,25 @@ export const TodolistReducer = (state: TodoListsType[] = initialState, action: M
 }
 
 export const addTodoListAC = (title: string) => ({
-    type: ACTION_TYPE.TODOLIST.ADD_TODOLIST,
-    payload: {
-        todoId: v1(),
-        title
-    }
-} as const);
+        type: ACTION_TYPE.TODOLIST.ADD_TODOLIST,
+        payload: {todoId: v1(), title}
+    } as const
+);
 
 export const removeTodoListAC = (todoId: string) => ({
-    type: ACTION_TYPE.TODOLIST.REMOVE_TODOLIST,
-    payload: {
-        todoId
-    }
-}as const);
+        type: ACTION_TYPE.TODOLIST.REMOVE_TODOLIST,
+        payload: {todoId}
+    } as const
+);
 
 export const changFilterValueAC = (todoId: string, filterValue: FilterValueType) => ({
-    type: ACTION_TYPE.TODOLIST.CHANGE_FILTER_VALUE,
-    payload: {
-        todoId,
-        filterValue
-    }
-}as const);
+        type: ACTION_TYPE.TODOLIST.CHANGE_FILTER_VALUE,
+        payload: {todoId, filterValue}
+    } as const
+);
 
 export const updateTodoListTitleAC = (todoId: string, title: string) => ({
-    type: ACTION_TYPE.TODOLIST.UPDATE_TODO_TITLE,
-    payload: {
-        todoId,
-        title
-    }
-}as const);
+        type: ACTION_TYPE.TODOLIST.UPDATE_TODO_TITLE,
+        payload: {todoId, title}
+    } as const
+);
