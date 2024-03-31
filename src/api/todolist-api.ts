@@ -10,7 +10,7 @@ export const todolistApi = {
         return instance.get<TodosResponse[]>("todo-lists");
     },
     createTodos(title: string) {
-        return instance.post<UniversalResponse<{item: TodosResponse}>>("todo-lists", {title});
+        return instance.post<UniversalResponse<{item: TodosResponse}>, { title: string }>("todo-lists", {title});
     },
     deleteTodos(todolistId: string) {
         return instance.delete<UniversalResponse>(`todo-lists/${todolistId}`);
@@ -22,7 +22,7 @@ export const todolistApi = {
         return instance.get<GetTasksResponseType>(`todo-lists/${todolistId}/tasks`);
     },
     createTasks(todolistId: string, title: string) {
-        return instance.post<UniversalResponse<TasksResponse>>(`todo-lists/${todolistId}/tasks`, {title});
+        return instance.post<UniversalResponse<TasksResponse>, { title: string }>(`todo-lists/${todolistId}/tasks`, {title});
     },
     deleteTasks(todolistId: string, taskId: string) {
         return instance.delete<UniversalResponse<TasksResponse>>(`todo-lists/${todolistId}/tasks/${taskId}`);
